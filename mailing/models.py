@@ -1,7 +1,7 @@
 from django.db import models
 
 
-# Create Model Reciever
+# Create Model Receiver
 class Receiver(models.Model):
     name = models.CharField(
         max_length=300,
@@ -25,3 +25,26 @@ class Receiver(models.Model):
         verbose_name = "Receiver"
         verbose_name_plural = "Receivers"
         ordering = ["name", "mail"]
+
+
+
+# Create Model Message
+class Message(models.Model):
+    title = models.CharField(
+        max_length=300,
+        help_text="Insert title of message",
+        verbose_name="Title",
+    )
+
+    message = models.TextField(
+        help_text="Insert subject", verbose_name="Message"
+    )
+
+    def __str__(self):
+        return f"{self.title}"
+
+    class Meta:
+        verbose_name = "Message"
+        verbose_name_plural = "Messages"
+        ordering = ["title",]
+
