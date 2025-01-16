@@ -27,7 +27,6 @@ class Receiver(models.Model):
         ordering = ["name", "mail"]
 
 
-
 # Create Model Message
 class Message(models.Model):
     title = models.CharField(
@@ -36,9 +35,7 @@ class Message(models.Model):
         verbose_name="Title",
     )
 
-    message = models.TextField(
-        help_text="Insert subject", verbose_name="Message"
-    )
+    message = models.TextField(help_text="Insert subject", verbose_name="Message")
 
     def __str__(self):
         return f"{self.title}"
@@ -46,5 +43,53 @@ class Message(models.Model):
     class Meta:
         verbose_name = "Message"
         verbose_name_plural = "Messages"
-        ordering = ["title",]
+        ordering = [
+            "title",
+        ]
 
+
+# Create Model Mailing
+class Mailing(models.Model):
+    CREATED = "Created"
+    LAUNCHED = "Launched"
+    COMPLETED = "Completed"
+
+    STATUS_CHOICES = [
+        (CREATED, "Created"),
+        (LAUNCHED, "Launched"),
+        (COMPLETED, "Completed"),
+    ]
+
+    first_sending = models.DateTimeField(
+        auto_now=True, verbose_name="Date and time of first sending"
+    )
+    end_sending = models.DateTimeField(verbose_name="Date and time of ends sending")
+
+    message = models.ForeignKey(
+        Message,
+        on_delete=models.CASCADE,
+        verbose_name="Message",
+        related_name="mailings",
+    )
+
+    status = models.CharField(
+        max_length=9,
+        choices=STATUS_CHOICES,
+        default=CREATED,
+        verbose_name="Mailing status",
+    )
+
+    receivers = models.ManyToManyField(
+        Receiver,
+        related_name="receivers",
+        verbose_name="receivers",
+        help_text="Indicate receivers",
+    )
+
+    def __str__(self):
+        return f"Mailing {self.id}"
+
+    class Meta:
+        verbose_name = "Mailing"
+        verbose_name_plural = "Mailings"
+        ordering = ["first_sending"]
