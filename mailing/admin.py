@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from .models import Receiver
+from .models import Receiver, Message
 
 #Register admin for Receiver model
 @admin.register(Receiver)
@@ -10,3 +10,9 @@ class ReceiverAdmin(admin.ModelAdmin):
     search_fields = ('name', 'mail',)
 
 
+#Register admin for Message model
+@admin.register(Message)
+class MessageAdmin(admin.ModelAdmin):
+    list_display = ("title", "message",)
+    list_filter = ('title', )
+    search_fields = ('title', 'message',)
