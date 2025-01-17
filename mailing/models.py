@@ -81,15 +81,49 @@ class Mailing(models.Model):
 
     receivers = models.ManyToManyField(
         Receiver,
-        related_name="receivers",
+        related_name="mailings",
         verbose_name="receivers",
         help_text="Indicate receivers",
     )
 
     def __str__(self):
-        return f"Mailing {self.id}"
+        return f"Mailing ID {self.id}"
 
     class Meta:
         verbose_name = "Mailing"
         verbose_name_plural = "Mailings"
         ordering = ["first_sending"]
+
+
+# Create Model Attempt
+class Attempt(models.Model):
+    SUCCEED = "Succeed"
+    NOT_SUCCEED = "Not Succeed"
+
+    STATUS_CHOICES = [
+        (SUCCEED, "Succeed"),
+        (NOT_SUCCEED, "Not Succeed"),
+    ]
+
+    attempt_time = models.TimeField(auto_now=True, verbose_name="Time of the attempt")
+    attempt_status = models.CharField(
+        max_length=11,
+        choices=STATUS_CHOICES,
+        default=SUCCEED,
+        verbose_name="Attempt status",
+    )
+    server_respond = models.TextField(verbose_name="Server respond")
+    mailing = models.ForeignKey(
+        Mailing,
+        on_delete=models.CASCADE,
+        verbose_name="Mailing",
+        related_name="attempts",
+    )
+
+    def __str__(self):
+        return f"Attempt ID: {self.id}"
+
+    class Meta:
+        verbose_name = "Attempt"
+        verbose_name_plural = "Attempts"
+        ordering = ["attempt_time"]
