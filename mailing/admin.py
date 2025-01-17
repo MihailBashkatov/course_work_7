@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from .models import Receiver, Message, Mailing
+from .models import Receiver, Message, Mailing, Attempt
 
 
 # Register admin for Receiver model
@@ -48,4 +48,19 @@ class MailingAdmin(admin.ModelAdmin):
     search_fields = (
         "status",
         "receivers__name",
+    )
+
+
+# Register admin for Attempt model
+@admin.register(Attempt)
+class AttemptAdmin(admin.ModelAdmin):
+    list_display = (
+        "attempt_time",
+        "attempt_status",
+        "server_respond",
+    )
+    list_filter = ("attempt_status",)
+    search_fields = (
+        "attempt_status",
+        "server_respond",
     )
