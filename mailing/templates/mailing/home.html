@@ -1,0 +1,47 @@
+{% extends 'mailing/base.html' %}
+{% block title %} Home page {% endblock %}
+{% block content %}
+{% include 'mailing/header.html' %}
+
+<div class="row text-center">
+        <div class="col-3">
+            <div class="card mb-4 box-shadow">
+                <div class="card-header">
+                    <h4 class="my-0 font-weight-normal">Convinient to choose</h4>
+                </div>
+                <div class="card-body">
+                    <ul class="list-unstyled mt-3 mb-4 text-start m-3">
+                        <li>- Only your dreams</li>
+                        <li>- Support</li>
+                        <li>- Dzen and more</li>
+                        <li>- Dream update</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-5">
+        </div>
+
+        <div class="col-3">
+            <div class="card mb-4 box-shadow">
+                <div class="card-header">
+                    <h4 class="my-0 font-weight-normal">Categories and products</h4>
+                </div>
+                <div class="card-body">
+                    <ul class="list-unstyled mt-3 mb-4 text-start m-3">
+                        <li><h2>Вода</h2></li>
+                        <li><h2>Горы</h2></li>
+                        <li><h2>Лес</h2></li>
+                    </ul>
+                    <a href="#"  class="btn btn-lg btn-block btn-outline-primary mb-4">Go to all categories</a>
+                    <a href="#" class="btn btn-lg btn-block btn-outline-primary">Go to all products</a>
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+{% include 'mailing/footer.html' %}
+{% endblock %}
