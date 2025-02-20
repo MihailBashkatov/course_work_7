@@ -6,9 +6,9 @@ class Receiver(models.Model):
     name = models.CharField(
         max_length=300,
         help_text="Insert Name and surname of receiver",
-        verbose_name="Name and surname",
+        verbose_name="Name",
     )
-    mail = models.CharField(
+    email = models.CharField(
         max_length=300,
         unique=True,
         help_text="Insert Email address of receiver",
@@ -19,12 +19,15 @@ class Receiver(models.Model):
     )
 
     def __str__(self):
-        return f"{self.name}. Email: {self.mail}"
+        return f"{self.name}. Email: {self.email}"
 
     class Meta:
         verbose_name = "Receiver"
         verbose_name_plural = "Receivers"
-        ordering = ["name", "mail"]
+        ordering = ["name", "email"]
+
+    # def get_absolute_url(self):
+        # return reverse('mailing', kwargs={'mailing_id': self.id})
 
 
 # Create Model Message
