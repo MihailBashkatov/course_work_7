@@ -8,15 +8,15 @@ from .models import Receiver, Message, Mailing, Attempt
 class ReceiverAdmin(admin.ModelAdmin):
     list_display = (
         "name",
-        "mail",
+        "email",
     )
     list_filter = (
         "name",
-        "mail",
+        "email",
     )
     search_fields = (
         "name",
-        "mail",
+        "email",
     )
 
 
