@@ -9,6 +9,12 @@ class User(AbstractUser):
     """ Registering model User """
     username = None
     email = models.EmailField(unique=True, verbose_name="Email")
+    name = models.CharField(
+        max_length=30, blank=True, null=True, verbose_name="Name"
+    )
+    last_name = models.CharField(
+        max_length=30, blank=True, null=True, verbose_name="Last Name"
+    )
     phone_number = models.CharField(
         max_length=30, blank=True, null=True, verbose_name="Phone number"
     )
