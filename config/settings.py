@@ -44,7 +44,9 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'mailing' # Registering mailing
+    'mailing' # Registering mailing,
+    'users' # Registering users
+
     ]
 
 MIDDLEWARE = [
