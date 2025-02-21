@@ -6,14 +6,23 @@
 <h2> Authorisation</h2>
 
 <form method="post">
-    {% csrf_token %}
-    <div class="form-error"> {{ form.non_field_errors }}</div>
-    {% for f in form %}
-    <p><label class="form-input" for="{{ f.id_for_label }}"> {{ f.label }} </label> {{ f }} </p>
-    <div class="form-error"> {{ f.errors }}</div>
-    {% endfor %}
-    <p><button type="submit" class="btn btn-primary">Login</button></p>
-    <a href="#">Forgot password?</a>
+        <div class="col-6">
+            <form class="row" method="post" enctype="multipart/form-data">
+                <div class="card">
+                    <div class="card-body">
+                        {% csrf_token %}
+                        <div class="form-error"> {{ form.non_field_errors }}</div>
+                        {% for f in form %}
+                        <p><label class="form-input" for="{{ f.id_for_label }}"> {{ f.label }} </label> {{ f }} </p>
+                        <div class="form-error"> {{ f.errors }}</div>
+                        {% endfor %}
+                        <p><button type="submit" class="btn btn-primary">Login</button></p>
+                    </div>
+                </div>
+            </form>
+        </div>
 </form>
+
+
 
 {% endblock %}
