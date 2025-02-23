@@ -1,5 +1,6 @@
 from django.urls import path
-from .views import HomeTemplateView, ReceiverCreateView, ReceiverUpdateView, ReceiverDetailView, ReceiverDeleteView
+from .views import HomeTemplateView, ReceiverCreateView, ReceiverUpdateView, ReceiverDetailView, ReceiverDeleteView, \
+      MessageDetailView, MessageCreateView, MessageUpdateView, MessageDeleteView
 
 app_name = 'mailing'
 
@@ -7,7 +8,12 @@ app_name = 'mailing'
 urlpatterns = [
       path('home/', HomeTemplateView.as_view(), name='home_template'),
       path('receiver/<int:pk>/', ReceiverDetailView.as_view(), name='receiver_detail'),
-      path('create/', ReceiverCreateView.as_view(), name='receiver_create'),
-      path('update/<int:pk>/', ReceiverUpdateView.as_view(), name='receiver_update'),
-      path('delete/<int:pk>/', ReceiverDeleteView.as_view(), name='receiver_delete'),
+      path('receiver_create/', ReceiverCreateView.as_view(), name='receiver_create'),
+      path('receiver_update/<int:pk>/', ReceiverUpdateView.as_view(), name='receiver_update'),
+      path('receiver_delete/<int:pk>/', ReceiverDeleteView.as_view(), name='receiver_delete'),
+
+      path('message/<int:pk>/', MessageDetailView.as_view(), name='message_detail'),
+      path('message_create/', MessageCreateView.as_view(), name='message_create'),
+      path('message_update/<int:pk>/', MessageUpdateView.as_view(), name='message_update'),
+      path('message_delete/<int:pk>/', MessageDeleteView.as_view(), name='message_delete'),
 ]
