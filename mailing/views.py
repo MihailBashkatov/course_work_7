@@ -1,5 +1,6 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404, redirect
 from django.urls import reverse_lazy
+from django.views import View
 from django.views.generic import TemplateView, ListView, CreateView, UpdateView, DetailView, DeleteView
 
 from mailing.forms import ReceiverForm, MessageForm
@@ -72,3 +73,52 @@ class MessageUpdateView(UpdateView):
 class MessageDeleteView(DeleteView):
     model = Message
     success_url = reverse_lazy('mailing:home_template')
+
+
+
+
+
+
+
+
+
+class MailingPageTemplateView(TemplateView):
+    """ MailingPage template view """
+    template_name = "mailing/mailing_page.html"
+
+    def get(self, request, *args, **kwargs):
+        messages_list = Message.objects.all()
+        receivers_list = Receiver.objects.all()
+        context = self.get_context_data(**kwargs)
+        context['messages_list'] = messages_list
+        context['receivers_list'] = receivers_list
+        return self.render_to_response(context)
+
+
+
+class ChosenMailingPageTemplateView(TemplateView):
+    """ ChosenMailingPage template view """
+    template_name = "mailing/chosen_list_for_mailing.html"
+
+    def get(self, request, *args, **kwargs):
+        messages_list = Message.objects.all()
+        receivers_list = Receiver.objects.all()
+        context = self.get_context_data(**kwargs)
+        context['messages_list'] = messages_list
+        context['receivers_list'] = receivers_list
+        return self.render_to_response(context)
+
+
+
+class ReceiverChosenView(View):
+    """ Class to change if receiver chosen for mailing list """
+    def post(self, request, pk):
+        receiver = get_object_or_404(Receiver, pk=pk)
+        if receiver.receiver_chosen:
+            receiver.receiver_chosen = False
+
+        elif not receiver.receiver_chosen:
+            receiver.receiver_chosen = True
+        receiver.save()
+
+        return redirect("mailing:mailing_page_template")
