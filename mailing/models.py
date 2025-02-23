@@ -15,7 +15,7 @@ class Receiver(models.Model):
         verbose_name="Email",
     )
     description = models.TextField(
-        help_text="Insert description", verbose_name="Description"
+        help_text="Insert comment", verbose_name="Comment"
     )
 
     def __str__(self):
