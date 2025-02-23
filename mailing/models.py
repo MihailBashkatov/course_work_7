@@ -18,6 +18,8 @@ class Receiver(models.Model):
         help_text="Insert comment", verbose_name="Comment"
     )
 
+    receiver_chosen = models.BooleanField(default=False)
+
     def __str__(self):
         return f"{self.name}. Email: {self.email}"
 
@@ -39,6 +41,8 @@ class Message(models.Model):
     )
 
     message = models.TextField(help_text="Insert subject", verbose_name="Message")
+
+    message_chosen = models.BooleanField(default=False)
 
     def __str__(self):
         return f"{self.title}"
