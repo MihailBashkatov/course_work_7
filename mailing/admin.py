@@ -9,6 +9,7 @@ class ReceiverAdmin(admin.ModelAdmin):
     list_display = (
         "name",
         "email",
+        "receiver_chosen"
     )
     list_filter = (
         "name",
@@ -26,6 +27,7 @@ class MessageAdmin(admin.ModelAdmin):
     list_display = (
         "title",
         "message",
+        'message_chosen'
     )
     list_filter = ("title",)
     search_fields = (
