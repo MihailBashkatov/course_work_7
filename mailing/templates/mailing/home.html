@@ -7,14 +7,13 @@
         <div class="col-3">
             <div class="card mb-4 box-shadow">
                 <div class="card-header">
-                    <h4 class="my-0 font-weight-normal">Convinient to choose</h4>
+                    <h4 class="my-0 font-weight-normal">Information about mailings</h4>
                 </div>
                 <div class="card-body">
                     <ul class="list-unstyled mt-3 mb-4 text-start m-3">
-                        <li>- Only your dreams</li>
-                        <li>- Support</li>
-                        <li>- Dzen and more</li>
-                        <li>- Dream update</li>
+                        <li>- All mailings </li>
+                        <li>- Active mailings </li>
+                        <li>- Inique receivers</li>
                     </ul>
                 </div>
             </div>
@@ -26,17 +25,14 @@
         <div class="col-3">
             <div class="card mb-4 box-shadow">
                 <div class="card-header">
-                    <h4 class="my-0 font-weight-normal">Categories and products</h4>
+                    <h4 class="my-0 font-weight-normal">Creates mailing</h4>
                 </div>
                 <div class="card-body">
                     <ul class="list-unstyled mt-3 mb-4 text-start m-3">
-                        <li><h2>Вода</h2></li>
-                        <li><h2>Горы</h2></li>
-                        <li><h2>Лес</h2></li>
+                        <li><h2><a href="{% url 'mailing:receiver_create' %}"  class="btn btn-lg btn-block btn-outline-primary mb-4">Create new Mailing</a></h2></li>
+                        <li><h2><a href="#" class="btn btn-lg btn-block btn-outline-primary">All mailings</a></h2></li>
+                        <li><h2>XXX</h2></li>
                     </ul>
-                    <a href="#"  class="btn btn-lg btn-block btn-outline-primary mb-4">Go to all categories</a>
-                    <a href="#" class="btn btn-lg btn-block btn-outline-primary">Go to all products</a>
-
                 </div>
             </div>
         </div>
