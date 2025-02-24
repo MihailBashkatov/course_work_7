@@ -1,7 +1,8 @@
 from django.urls import path
 from .views import HomeTemplateView, ReceiverCreateView, ReceiverUpdateView, ReceiverDetailView, ReceiverDeleteView, \
       MessageDetailView, MessageCreateView, MessageUpdateView, MessageDeleteView, MailingPageTemplateView, \
-      ChosenMailingPageTemplateView, ReceiverChosenView
+      ChosenMailingPageTemplateView, ReceiverChosenView, MailingDetailView, MailingCreateView, MailingUpdateView, \
+      MailingDeleteView
 
 app_name = 'mailing'
 
@@ -18,10 +19,10 @@ urlpatterns = [
       path('message_update/<int:pk>/', MessageUpdateView.as_view(), name='message_update'),
       path('message_delete/<int:pk>/', MessageDeleteView.as_view(), name='message_delete'),
 
-      path('mailings/<int:pk>/', MessageDetailView.as_view(), name='mailing_detail'),
-      path('mailings_create/', MessageCreateView.as_view(), name='mailing_create'),
-      path('mailings_update/<int:pk>/', MessageUpdateView.as_view(), name='mailing_update'),
-      path('mailings_delete/<int:pk>/', MessageDeleteView.as_view(), name='mailing_delete'),
+      path('mailings_detail/<int:pk>/', MailingDetailView.as_view(), name='mailing_detail'),
+      path('mailings_create/', MailingCreateView.as_view(), name='mailing_create'),
+      path('mailings_update/<int:pk>/', MailingUpdateView.as_view(), name='mailing_update'),
+      path('mailings_delete/<int:pk>/', MailingDeleteView.as_view(), name='mailing_delete'),
 
 
       path('mailing/', MailingPageTemplateView.as_view(), name='mailing_page_template'),
