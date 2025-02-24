@@ -1,6 +1,6 @@
 from django import forms
 
-from mailing.models import Receiver, Message
+from mailing.models import Receiver, Message, Mailing
 
 
 class ReceiverForm(forms.ModelForm):
@@ -23,5 +23,17 @@ class MessageForm(forms.ModelForm):
 
         widgets = {
             'title':forms.TextInput(attrs={'class': 'form-input'}),
+            'message':forms.Textarea(attrs={'cols':50, 'rows' :5}),
+        }
+
+class MailingForm(forms.ModelForm):
+    """Form for Mailing Model """
+    class Meta:
+        model = Mailing
+        fields = ['first_sending', 'end_sending', 'status',  'message', 'receivers']
+
+        widgets = {
+            'receivers': forms.TextInput(attrs={'class': 'form-input'}),
+            'status':forms.TextInput(attrs={'class': 'form-input'}),
             'message':forms.Textarea(attrs={'cols':50, 'rows' :5}),
         }
