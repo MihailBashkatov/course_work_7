@@ -3,8 +3,8 @@ from django.urls import reverse_lazy
 from django.views import View
 from django.views.generic import TemplateView, ListView, CreateView, UpdateView, DetailView, DeleteView
 
-from mailing.forms import ReceiverForm, MessageForm
-from mailing.models import Receiver, Message
+from mailing.forms import ReceiverForm, MessageForm, MailingForm
+from mailing.models import Receiver, Message, Mailing
 
 
 class HomeTemplateView(TemplateView):
@@ -122,3 +122,37 @@ class ReceiverChosenView(View):
         receiver.save()
 
         return redirect("mailing:mailing_page_template")
+
+
+
+
+
+
+
+
+
+class MailingDetailView(DetailView):
+    """Mailing detail view """
+    model = Mailing
+    form_class = MailingForm
+
+
+class MailingCreateView(CreateView):
+    """Mailing create view """
+    model = Mailing
+    form_class = MailingForm
+    extra_context = {'title': 'Add your mailing'}
+    success_url = reverse_lazy('mailing:home_template')
+
+
+class MailingUpdateView(UpdateView):
+    """Mailing update view """
+    model = Mailing
+    form_class = MailingForm
+    extra_context = {'title': 'Edit Mailing'}
+    success_url = reverse_lazy('mailing:home_template')
+
+
+class MailingDeleteView(DeleteView):
+    model = Mailing
+    success_url = reverse_lazy('mailing:home_template')
