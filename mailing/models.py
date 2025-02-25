@@ -70,7 +70,7 @@ class Mailing(models.Model):
     first_sending = models.DateTimeField(
         auto_now=True, verbose_name="Date and time of first sending"
     )
-    end_sending = models.DateTimeField(verbose_name="Date and time of ends sending")
+    end_sending = models.DateTimeField(verbose_name="Date and time of ends sending", null=True, blank=True)
 
     message = models.ForeignKey(
         Message,
@@ -90,11 +90,10 @@ class Mailing(models.Model):
         Receiver,
         related_name="mailings",
         verbose_name="receivers",
-        help_text="Indicate receivers",
     )
 
     def __str__(self):
-        return f"Mailing ID {self.id}"
+        return f"Mailing title '{self.message}'"
 
     class Meta:
         verbose_name = "Mailing"
@@ -104,10 +103,12 @@ class Mailing(models.Model):
 
 # Create Model Attempt
 class Attempt(models.Model):
+    NOT_STARTED = "Not Started"
     SUCCEED = "Succeed"
     NOT_SUCCEED = "Not Succeed"
 
     STATUS_CHOICES = [
+        (NOT_STARTED, "Not Started"),
         (SUCCEED, "Succeed"),
         (NOT_SUCCEED, "Not Succeed"),
     ]
@@ -116,7 +117,7 @@ class Attempt(models.Model):
     attempt_status = models.CharField(
         max_length=11,
         choices=STATUS_CHOICES,
-        default=SUCCEED,
+        default=NOT_STARTED,
         verbose_name="Attempt status",
     )
     server_respond = models.TextField(verbose_name="Server respond")
