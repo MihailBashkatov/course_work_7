@@ -36,8 +36,8 @@ class MailingForm(forms.ModelForm):
             'status':forms.TextInput(attrs={'class': 'form-input'}),
         }
 
-class AttemtsForm(forms.ModelForm):
+class AttemptForm(forms.ModelForm):
     """Form for Attempt Model """
     class Meta:
         model = Attempt
-        fields = ['attempt_time',  'attempt_status', 'server_respond', 'mailing']
+        fields = ['mailing']
