@@ -11,6 +11,7 @@ class ReceiverAdmin(admin.ModelAdmin):
         "email",
         "receiver_chosen"
     )
+    list_editable = ('receiver_chosen',)
     list_filter = (
         "name",
         "email",
@@ -29,6 +30,7 @@ class MessageAdmin(admin.ModelAdmin):
         "message",
         'message_chosen'
     )
+    list_editable = ('message_chosen',)
     list_filter = ("title",)
     search_fields = (
         "title",
@@ -43,14 +45,21 @@ class MailingAdmin(admin.ModelAdmin):
         "first_sending",
         "end_sending",
         "status",
-        "receivers__name",
+        # "receivers__email",
+        "get_receivers",
         "message__title",
     )
+    list_editable = ('status',)
     list_filter = ("status",)
+    filter_horizontal = ['receivers']
     search_fields = (
         "status",
         "receivers__name",
     )
+
+    @admin.display(description='receivers')
+    def get_receivers(self, obj):
+        return [receiver.email for receiver in obj.receivers.all()]
 
 
 # Register admin for Attempt model
@@ -60,9 +69,15 @@ class AttemptAdmin(admin.ModelAdmin):
         "attempt_time",
         "attempt_status",
         "server_respond",
+        "get_receivers",
+        "mailing__message__title",
     )
     list_filter = ("attempt_status",)
     search_fields = (
         "attempt_status",
         "server_respond",
     )
+
+    @admin.display(description='receivers')
+    def get_receivers(self, obj):
+        return [receiver.email for receiver in obj.mailing.receivers.all()]
