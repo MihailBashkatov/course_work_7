@@ -1,10 +1,12 @@
+from dataclasses import fields
+
 from django.shortcuts import render, get_object_or_404, redirect
 from django.urls import reverse_lazy
 from django.views import View
 from django.views.generic import TemplateView, ListView, CreateView, UpdateView, DetailView, DeleteView
 
-from mailing.forms import ReceiverForm, MessageForm, MailingForm
-from mailing.models import Receiver, Message, Mailing
+from mailing.forms import ReceiverForm, MessageForm, MailingForm, AttemptForm
+from mailing.models import Receiver, Message, Mailing, Attempt
 
 
 class HomeTemplateView(TemplateView):
@@ -144,6 +146,23 @@ class MailingCreateView(CreateView):
     extra_context = {'title': 'Add your mailing'}
     success_url = reverse_lazy('mailing:home_template')
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        print(context)
+        message = Message.objects.filter(message_chosen=True)
+        context['mailing_message'] = message[0].message
+        print(context)
+
+        return context
+
+    # def get(self, request, *args, **kwargs):
+    #     message = Message.objects.filter(message_chosen=True)
+    #     context = super().get_context_data(**kwargs)
+    #     category_id = self.object.id
+    #     context['category_name'] = self.object.category_name
+    #
+    #     return super().get(request, *args, **kwargs)
+
 
 class MailingUpdateView(UpdateView):
     """Mailing update view """
@@ -155,4 +174,37 @@ class MailingUpdateView(UpdateView):
 
 class MailingDeleteView(DeleteView):
     model = Mailing
+    success_url = reverse_lazy('mailing:home_template')
+    
+    
+    
+    
+    
+    
+    
+class AttemptDetailView(DetailView):
+    """Attempt detail view """
+    model = Attempt
+    form_class = AttemptForm
+
+
+class AttemptCreateView(CreateView):
+    """Attempt create view """
+    model = Attempt
+    form_class = AttemptForm
+    extra_context = {'title': 'Add your Attempt'}
+    success_url = reverse_lazy('mailing:home_template')
+
+
+
+class AttemptUpdateView(UpdateView):
+    """Attempt update view """
+    model = Attempt
+    form_class = AttemptForm
+    extra_context = {'title': 'Edit Attempt'}
+    success_url = reverse_lazy('mailing:home_template')
+
+
+class AttemptDeleteView(DeleteView):
+    model = Attempt
     success_url = reverse_lazy('mailing:home_template')
