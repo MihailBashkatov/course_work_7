@@ -36,6 +36,15 @@ class MailingForm(forms.ModelForm):
             'status':forms.TextInput(attrs={'class': 'form-input'}),
         }
 
+    def __init__(self, *args, **kwargs):
+        super(MailingForm, self).__init__(*args, **kwargs)
+
+        self.fields['receivers'].widget = forms.CheckboxSelectMultiple()
+        self.fields['receivers'].queryset = Receiver.objects.all()
+
+        self.fields['message'].widget = forms.RadioSelect()
+        self.fields['message'].queryset = Message.objects.all()
+
 class AttemptForm(forms.ModelForm):
     """Form for Attempt Model """
     class Meta:
