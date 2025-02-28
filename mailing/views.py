@@ -1,10 +1,15 @@
+import requests
 from dataclasses import fields
+from smtplib import SMTPResponseException, SMTPRecipientsRefused, SMTPException
 
+from django.core.mail import send_mail
 from django.shortcuts import render, get_object_or_404, redirect
 from django.urls import reverse_lazy
 from django.views import View
 from django.views.generic import TemplateView, ListView, CreateView, UpdateView, DetailView, DeleteView
+from requests import Response
 
+from config.settings import EMAIL_HOST_USER
 from mailing.forms import ReceiverForm, MessageForm, MailingForm, AttemptForm
 from mailing.models import Receiver, Message, Mailing, Attempt
 
@@ -195,6 +200,31 @@ class AttemptCreateView(CreateView):
     extra_context = {'title': 'Add your Attempt'}
     success_url = reverse_lazy('mailing:home_template')
 
+
+
+    def form_valid(self, form):
+        """ Sending mails logic during creating a new attempt"""
+        mailing = form.save()
+        users = mailing.mailing.receivers.all()
+        user_mail =[]
+        for user in users:
+            user_mail.append(user.email)
+        try:
+            self.send_mailing(user_mail)
+            mailing.attempt_status = 'Succeed'
+            mailing.server_respond = 'All mailings are done'
+        except Exception as e:
+            mailing.server_respond = e
+            mailing.attempt_status = 'Not Succeed'
+        mailing.save()
+        return super().form_valid(form)
+
+    def send_mailing(self, user_mail):
+        subject = 'Welcome Trial!'
+        message = 'Hello  TRIAL'
+        from_email = EMAIL_HOST_USER
+        recipient_list = user_mail
+        send_mail(subject, message, from_email, recipient_list)
 
 
 class AttemptUpdateView(UpdateView):
