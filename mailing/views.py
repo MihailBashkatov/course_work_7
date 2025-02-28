@@ -1,3 +1,5 @@
+import datetime
+
 import requests
 from dataclasses import fields
 from smtplib import SMTPResponseException, SMTPRecipientsRefused, SMTPException
@@ -211,12 +213,18 @@ class AttemptCreateView(CreateView):
             user_mail.append(user.email)
         try:
             self.send_mailing(user_mail)
+            mailing.mailing.status = 'Launched'
+            mailing.mailing.save()
             mailing.attempt_status = 'Succeed'
             mailing.server_respond = 'All mailings are done'
         except Exception as e:
             mailing.server_respond = e
             mailing.attempt_status = 'Not Succeed'
         mailing.save()
+        end_time = datetime.datetime.now()
+        mailing.mailing.end_sending = end_time
+        mailing.mailing.status = 'Completed'
+        mailing.mailing.save()
         return super().form_valid(form)
 
     def send_mailing(self, user_mail):
