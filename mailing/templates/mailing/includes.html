@@ -22,17 +22,17 @@
                           </li>
                           {% if user.is_authenticated%}
                           <li>
-                            <form method="post" action="#" style="display: inline">
+                            <form method="post" action="{% url 'users:logout' %}" style="display: inline">
                                 {% csrf_token %}
-                                <button type="submit" class="p-2 btn btn-outline-primary" >Logout</button>
+                                <button type="submit" class="p-2 btn btn-outline-primary" >LogoutHHH</button>
                             </form>
                           </li>
                           {% else %}
                           <li>
-                              <a class="p-2 btn btn-outline-primary" href="#">Login</a>
+                              <a class="p-2 btn btn-outline-primary" href="{% url 'users:login' %}">Login</a>
                           </li>
                           <li>
-                              <a class="p-2 btn btn-outline-primary" href="#">Registration</a>
+                              <a class="p-2 btn btn-outline-primary" href="{% url 'users:register_user' %}">Registration</a>
                           </li>
                           {% endif %}
                       </ul>
