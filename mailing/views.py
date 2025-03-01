@@ -4,6 +4,7 @@ import requests
 from dataclasses import fields
 from smtplib import SMTPResponseException, SMTPRecipientsRefused, SMTPException
 
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.mail import send_mail
 from django.shortcuts import render, get_object_or_404, redirect
 from django.urls import reverse_lazy
@@ -146,7 +147,7 @@ class MailingDetailView(DetailView):
     form_class = MailingForm
 
 
-class MailingCreateView(CreateView):
+class MailingCreateView(LoginRequiredMixin, CreateView):
     """Mailing create view """
     model = Mailing
     form_class = MailingForm
