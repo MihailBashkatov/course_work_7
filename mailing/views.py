@@ -106,16 +106,18 @@ class MailingPageTemplateView(TemplateView):
 
 
 
-class ChosenMailingPageTemplateView(TemplateView):
-    """ ChosenMailingPage template view """
-    template_name = "mailing/chosen_list_for_mailing.html"
+class StatisticsTemplateView(TemplateView):
+    """ StatisticsPage template view """
+    template_name = "mailing/statistics.html"
 
     def get(self, request, *args, **kwargs):
-        messages_list = Message.objects.all()
+        mailiing_list = Mailing.objects.all()
         receivers_list = Receiver.objects.all()
+        attempts_list = Attempt.objects.all()
         context = self.get_context_data(**kwargs)
-        context['messages_list'] = messages_list
+        context['mailing_list'] = mailiing_list
         context['receivers_list'] = receivers_list
+        context['attempts_list'] = attempts_list
         return self.render_to_response(context)
 
 
