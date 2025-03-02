@@ -1,0 +1,93 @@
+{% extends 'mailing/base.html' %}
+{% block title %} Home page {% endblock %}
+{% block content %}
+{% include 'mailing/header.html' %}
+
+<div class="row text-center">
+        <div class="col-3">
+            <div class="card mb-4 box-shadow">
+                <div class="card-header">
+                    <h4 class="my-0 font-weight-normal">Information about mailings</h4>
+                </div>
+                <div class="card-body">
+                    <h4>Total amount of mailings: {{mailing_list|length}} </h4>
+                  <ul class="list-unstyled mt-3 mb-4 text-start m-3">
+                      <h5>List of mailings </h5>
+                      {% for mailing in mailing_list %}
+
+
+                          <h2 class="fw-normal" class="card-title"></h2>
+                      <a href="{% url 'mailing:mailing_detail' mailing.pk %}">Mailing title: {{mailing.message.title }}</a>
+                      {% if  mailing.status == "Completed" %}
+                      <li>
+                      <p5>Mailing started: {{mailing.first_sending}}</p5>
+                      </li>
+                      <li>
+                      <p5>Mailing ended: {{mailing.end_sending}}</p5>
+                      </li>
+                      {% endif %}
+                      <li>
+                      <p5>Mailing status: {{mailing.status}}</p5>
+                      </li>
+
+
+
+                    {% endfor %}
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-3">
+            <div class="card mb-4 box-shadow">
+                <div class="card-header">
+                    <h4 class="my-0 font-weight-normal">Information about Attempts</h4>
+                </div>
+                <div class="card-body">
+                    <h4>Total amount of attempts: {{attempts_list|length}} </h4>
+                  <ul class="list-unstyled mt-3 mb-4 text-start m-3">
+                      <h5>List of mailings </h5>
+                      {% for attempt in attempts_list %}
+                      <li>
+                          Attempt title: {{ attempt.mailing.message.title }}
+
+                      </li>
+                      <li>
+                          Attempt receivers:
+                          {% for receiver in attempt.mailing.receivers.all %}
+                      <li>{{ receiver.email }}</li>
+                          {% endfor %}
+                      </li>
+                      <li>
+                          Attempt status: {{ attempt.attempt_status }}
+                          {% if attempt.attempt_status == "Not Succeed" %}
+                          Server respond: {{ attempt.server_respond}}
+                          {% endif %}
+                      </li>
+                      <li>Attempt time: {{ attempt.attempt_time }}</li>
+                        <br>
+
+
+                    {% endfor %}
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-3">
+            <div class="card mb-4 box-shadow">
+                <div class="card-header">
+                    <h4 class="my-0 font-weight-normal">Information about receivers</h4>
+                </div>
+                <div class="card-body">
+                    <h4>Amount of unique reciever: {{receivers_list|length}} </h4>
+                  <ul class="list-unstyled mt-3 mb-4 text-start m-3">
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+{% include 'mailing/footer.html' %}
+{% endblock %}
