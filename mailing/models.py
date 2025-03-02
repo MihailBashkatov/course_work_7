@@ -38,6 +38,7 @@ class Message(models.Model):
         max_length=300,
         help_text="Insert title of message",
         verbose_name="Title",
+        unique=True,  # This will ensure that each message has a unique title
     )
 
     message = models.TextField(help_text="Insert subject", verbose_name="Message")
@@ -77,6 +78,7 @@ class Mailing(models.Model):
         on_delete=models.CASCADE,
         verbose_name="Message",
         related_name="mailings",
+        unique=True
     )
 
     status = models.CharField(
