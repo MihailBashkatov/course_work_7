@@ -31,7 +31,7 @@ urlpatterns = [
 
 
       path('mailing/', MailingPageTemplateView.as_view(), name='mailing_page_template'),
-      path('chosen_mailing/', ChosenMailingPageTemplateView.as_view(), name='chosen_mailing_page_template'),
+      path('statistics/', ChosenMailingPageTemplateView.as_view(), name='statistics'),
 
       path('receiver/chosen/<int:pk>/', ReceiverChosenView.as_view(), name='receiver_chosen'),
 
