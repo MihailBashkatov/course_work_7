@@ -1,5 +1,7 @@
 from django.db import models
 
+from users.models import User
+
 
 # Create Model Receiver
 class Receiver(models.Model):
@@ -19,6 +21,8 @@ class Receiver(models.Model):
     )
 
     receiver_chosen = models.BooleanField(default=False)
+
+    receiver_adder = models.ForeignKey(User, on_delete=models.CASCADE, null=False, blank=False, related_name="adder")
 
     def __str__(self):
         return f"{self.name}. Email: {self.email}"
@@ -78,7 +82,6 @@ class Mailing(models.Model):
         on_delete=models.CASCADE,
         verbose_name="Message",
         related_name="mailings",
-        unique=True
     )
 
     status = models.CharField(
@@ -93,6 +96,8 @@ class Mailing(models.Model):
         related_name="mailings",
         verbose_name="receivers",
     )
+
+    mailing_sender = models.ForeignKey(User, on_delete=models.CASCADE, null=False, blank=False, related_name="sender")
 
     def __str__(self):
         return f"Mailing title '{self.message}'"
@@ -137,3 +142,4 @@ class Attempt(models.Model):
         verbose_name = "Attempt"
         verbose_name_plural = "Attempts"
         ordering = ["attempt_time"]
+
