@@ -1,7 +1,7 @@
 from django.urls import path
 from .views import HomeTemplateView, ReceiverCreateView, ReceiverUpdateView, ReceiverDetailView, ReceiverDeleteView, \
       MessageDetailView, MessageCreateView, MessageUpdateView, MessageDeleteView, MailingPageTemplateView, \
-      ChosenMailingPageTemplateView, ReceiverChosenView, MailingDetailView, MailingCreateView, MailingUpdateView, \
+      ReceiverChosenView, MailingDetailView, MailingCreateView, MailingUpdateView, \
       MailingDeleteView, AttemptDetailView, AttemptCreateView, AttemptUpdateView, AttemptDeleteView, \
       StatisticsTemplateView
 
