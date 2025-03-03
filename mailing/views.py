@@ -5,6 +5,7 @@ from dataclasses import fields
 from smtplib import SMTPResponseException, SMTPRecipientsRefused, SMTPException
 
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.core.exceptions import PermissionDenied
 from django.core.mail import send_mail
 from django.shortcuts import render, get_object_or_404, redirect
 from django.urls import reverse_lazy
@@ -35,6 +36,10 @@ class ReceiverCreateView(CreateView):
     extra_context = {'title': 'Add your Client'}
     success_url = reverse_lazy('mailing:home_template')
 
+    def form_valid(self, form):
+        form.instance.receiver_adder = self.request.user
+        return super().form_valid(form)
+
 
 class ReceiverUpdateView(UpdateView):
     """Receiver update view """
@@ -42,6 +47,13 @@ class ReceiverUpdateView(UpdateView):
     form_class = ReceiverForm
     extra_context = {'title': 'Edit info about your Client'}
     success_url = reverse_lazy('mailing:home_template')
+
+    # Adding logic to update Mailing only for user
+    def get_form_class(self):
+        user = self.request.user
+        if user == self.object.receiver_adder:
+            return MailingForm
+        raise PermissionDenied
 
 
 class ReceiverDeleteView(DeleteView):
@@ -139,8 +151,15 @@ class ReceiverChosenView(View):
 
 
 
+class MailingListView(ListView):
+    model = Mailing
 
-
+    def get(self, request, *args, **kwargs):
+        self.object_list = self.get_queryset()
+        user = self.request.user
+        self.object_list = self.object_list.filter(mailing_sender=user)
+        context = self.get_context_data()
+        return self.render_to_response(context)
 
 
 class MailingDetailView(DetailView):
@@ -156,14 +175,20 @@ class MailingCreateView(LoginRequiredMixin, CreateView):
     extra_context = {'title': 'Add your mailing'}
     success_url = reverse_lazy('mailing:home_template')
 
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        print(context)
-        message = Message.objects.filter(message_chosen=True)
-        context['mailing_message'] = message[0].message
-        print(context)
+    def form_valid(self, form):
+        form.instance.mailing_sender = self.request.user
+        return super().form_valid(form)
 
-        return context
+
+
+    # def get_context_data(self, **kwargs):
+        # context = super().get_context_data(**kwargs)
+        # print(context)
+        # message = Message.objects.filter(message_chosen=True)
+        # context['mailing_message'] = message[0].message
+        # print(context)
+
+        # return context
 
     # def get(self, request, *args, **kwargs):
     #     message = Message.objects.filter(message_chosen=True)
@@ -174,19 +199,31 @@ class MailingCreateView(LoginRequiredMixin, CreateView):
     #     return super().get(request, *args, **kwargs)
 
 
-class MailingUpdateView(UpdateView):
+class MailingUpdateView(LoginRequiredMixin, UpdateView):
     """Mailing update view """
     model = Mailing
     form_class = MailingForm
     extra_context = {'title': 'Edit Mailing'}
     success_url = reverse_lazy('mailing:home_template')
 
+    # Adding logic to update Mailing only for user
+    def get_form_class(self):
+        user = self.request.user
+        if user == self.object.mailing_sender:
+            return MailingForm
+        raise PermissionDenied
 
-class MailingDeleteView(DeleteView):
+
+class MailingDeleteView(LoginRequiredMixin, DeleteView):
     model = Mailing
     success_url = reverse_lazy('mailing:home_template')
     
-    
+    def post(self, request, *args, **kwargs):
+        user = self.request.user
+        self.object = self.get_object()
+        if user == self.object.mailing_sender:
+            return super().post(request, *args, **kwargs)
+        raise PermissionDenied
     
     
     
