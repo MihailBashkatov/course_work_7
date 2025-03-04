@@ -1,4 +1,6 @@
+from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from django.contrib.auth.views import LoginView
+from django.core.exceptions import PermissionDenied
 from django.core.mail import send_mail
 from django.urls import reverse_lazy
 from django.views.generic import CreateView
@@ -34,5 +36,6 @@ class RegisterUser(CreateView):
         recipient_list = [user_email,]
         send_mail(subject, message, from_email, recipient_list)
 
-class UserListView(ListView):
+class UserListView(LoginRequiredMixin, PermissionRequiredMixin, ListView):
     model = User
+    permission_required = 'users.view_all_users'
