@@ -4,9 +4,10 @@ import requests
 from dataclasses import fields
 from smtplib import SMTPResponseException, SMTPRecipientsRefused, SMTPException
 
-from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from django.core.exceptions import PermissionDenied
 from django.core.mail import send_mail
+from django.http import HttpResponseForbidden
 from django.shortcuts import render, get_object_or_404, redirect
 from django.urls import reverse_lazy
 from django.views import View
@@ -133,33 +134,42 @@ class StatisticsTemplateView(TemplateView):
         return self.render_to_response(context)
 
 
-
-class ReceiverChosenView(View):
-    """ Class to change if receiver chosen for mailing list """
-    def post(self, request, pk):
-        receiver = get_object_or_404(Receiver, pk=pk)
-        if receiver.receiver_chosen:
-            receiver.receiver_chosen = False
-
-        elif not receiver.receiver_chosen:
-            receiver.receiver_chosen = True
-        receiver.save()
-
-        return redirect("mailing:mailing_page_template")
-
-
-
-
-
-class MailingListView(ListView):
+class MailingListView(LoginRequiredMixin, ListView):
+    """ Class to get list of Mailings """
     model = Mailing
 
     def get(self, request, *args, **kwargs):
-        self.object_list = self.get_queryset()
-        user = self.request.user
-        self.object_list = self.object_list.filter(mailing_sender=user)
-        context = self.get_context_data()
-        return self.render_to_response(context)
+
+        # rendering all Mailing list for moderators
+        if request.user.has_perm('mailing.view_all_mailings'):
+            self.object_list = self.get_queryset()
+            context = self.get_context_data()
+            return self.render_to_response(context)
+
+        # rendering Mailing list for particular user
+        else:
+            self.object_list = self.get_queryset()
+            user = self.request.user
+            self.object_list = self.object_list.filter(mailing_sender=user)
+            context = self.get_context_data()
+            return self.render_to_response(context)
+
+
+class MailingDeactivateView(LoginRequiredMixin, View):
+
+    def post(self, request, pk):
+        mailing = get_object_or_404(Mailing, pk=pk)
+
+        if not request.user.has_perm("mailing.deactivate_mailings"):
+            return HttpResponseForbidden(
+                "You do not have permission to unpublish this product"
+            )
+
+        mailing.status = 'Created'
+        mailing.save()
+
+        return redirect("mailing:mailing_list")
+
 
 
 class MailingDetailView(DetailView):
@@ -178,25 +188,6 @@ class MailingCreateView(LoginRequiredMixin, CreateView):
     def form_valid(self, form):
         form.instance.mailing_sender = self.request.user
         return super().form_valid(form)
-
-
-
-    # def get_context_data(self, **kwargs):
-        # context = super().get_context_data(**kwargs)
-        # print(context)
-        # message = Message.objects.filter(message_chosen=True)
-        # context['mailing_message'] = message[0].message
-        # print(context)
-
-        # return context
-
-    # def get(self, request, *args, **kwargs):
-    #     message = Message.objects.filter(message_chosen=True)
-    #     context = super().get_context_data(**kwargs)
-    #     category_id = self.object.id
-    #     context['category_name'] = self.object.category_name
-    #
-    #     return super().get(request, *args, **kwargs)
 
 
 class MailingUpdateView(LoginRequiredMixin, UpdateView):
