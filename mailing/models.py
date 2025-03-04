@@ -106,6 +106,8 @@ class Mailing(models.Model):
         verbose_name = "Mailing"
         verbose_name_plural = "Mailings"
         ordering = ["first_sending"]
+        permissions = [("view_all_mailings", "View all mailings"), ("deactivate_mailings", "Deactivate mailings")]
+
 
 
 # Create Model Attempt
