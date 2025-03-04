@@ -1,0 +1,32 @@
+{% extends 'mailing/base.html' %}
+{% block title %}List of Users{% endblock %}
+{% block content %}
+{% include 'mailing/header.html' %}
+
+
+<div class="row text-center">
+    <div class="col-12">
+        <div class="d-flex flex-wrap">
+            {% for receiver in object_list %}
+                <div class="card ms-4 mb-5" style="width: 25rem">
+                    <div class="card-body mb-3">
+                        {% if not receiver.name %}
+                        <h2 class="fw-normal" class="card-title">Receiver name is not defined</h2>
+                        {% else %}
+                       <h2 class="fw-normal" class="card-title">{{ receiver.name }}</h2>
+                        {% endif %}
+                        {% if not receiver.description %}
+                        <h2 class="fw-normal" class="card-title">Receiver description is not defined</h2>
+                        {% else %}
+                        <p class="card-text">{{ receiver.description }}</p>
+                        {% endif %}
+                        <p class="card-text">{{ receiver.email }}</p>
+                        <p class="card-text">{{ receiver.receiver_adder }}</p>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+{% include 'mailing/footer.html' %}
+{% endblock %}
