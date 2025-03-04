@@ -6,7 +6,7 @@ from django.views.generic import CreateView
 from config.settings import EMAIL_HOST_USER
 from users.forms import LoginUserForm, UserRegisterForm
 from users.models import User
-
+from django.views.generic import (ListView)
 
 class LoginUser(LoginView):
     """ Class for login users """
@@ -33,3 +33,6 @@ class RegisterUser(CreateView):
         from_email = EMAIL_HOST_USER
         recipient_list = [user_email,]
         send_mail(subject, message, from_email, recipient_list)
+
+class UserListView(ListView):
+    model = User
