@@ -9,9 +9,7 @@ class ReceiverAdmin(admin.ModelAdmin):
     list_display = (
         "name",
         "email",
-        "receiver_chosen"
     )
-    list_editable = ('receiver_chosen',)
     list_filter = (
         "name",
         "email",
