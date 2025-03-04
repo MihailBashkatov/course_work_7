@@ -6,13 +6,18 @@
 
 <div class="row text-center">
     <div class="col-12">
+        {% if user == object.mailing_sender %}
         <p><a class="btn btn-success" href="{% url 'mailing:mailing_create' %}">Add Mailing</a></p>
+        {% endif %}
         <div class="d-flex flex-wrap">
             {% for mailing in object_list %}
                 <div class="card ms-4 mb-5" style="width: 25rem">
                     <div class="card-body mb-3">
                        <h2 class="fw-normal" class="card-title">{{mailing.message.title }}</h2>
                         <p class="card-text">{{mailing.message.message|truncatechars:100}}</p>
+                        {% if "mailing.deactivate_mailings" in perms %}
+                            Mailing status: {{ mailing.status }}
+                        {% endif %}
                         <p><a class="btn btn-secondary" href="{% url 'mailing:mailing_detail' mailing.pk %}">More about</a></p>
                     </div>
                 </div>

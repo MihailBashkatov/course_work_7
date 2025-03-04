@@ -25,12 +25,19 @@
         </div>
         <div class="pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center">
 
+            {% if user == object.mailing_sender %}
+            <p><a class="btn btn-success" href="{% url 'mailing:mailing_update' mailing.pk %}">Edit Mailing</a></p>
+            <p><a class="btn btn-danger" href="{% url 'mailing:mailing_delete' mailing.pk %}">Delete Mailing</a></p>
+            {% endif %}
 
-            <p><a class="btn btn-success" href="#">Edit Mailing</a></p>
-            <p><a class="btn btn-danger" href="#">Delete Mailing</a></p>
+            <a class="btn btn-primary mb-3" href="{% url 'mailing:mailing_list' %}" >Back to all mailings</a>
 
-            <a class="btn btn-primary mb-3" href="#" >Back to all mailings</a>
-
+            {% if "mailing.deactivate_mailings" in perms %}
+                <form action="{% url 'mailing:mailing_deactivate' mailing.pk %}" method="post">
+                {% csrf_token %}
+                <button class="btn btn-primary mb-3" type="submit">Change Mailing status to Draft</button>
+                </form>
+            {% endif %}
 
         </div>
       </div>
