@@ -37,5 +37,6 @@ class RegisterUser(CreateView):
         send_mail(subject, message, from_email, recipient_list)
 
 class UserListView(LoginRequiredMixin, PermissionRequiredMixin, ListView):
+    """ Class for viewing all users. Authorization for moderators"""
     model = User
     permission_required = 'users.view_all_users'
