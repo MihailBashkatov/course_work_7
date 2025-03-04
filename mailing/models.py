@@ -20,8 +20,6 @@ class Receiver(models.Model):
         help_text="Insert comment", verbose_name="Comment"
     )
 
-    receiver_chosen = models.BooleanField(default=False)
-
     receiver_adder = models.ForeignKey(User, on_delete=models.CASCADE, null=False, blank=False, related_name="adder")
 
     def __str__(self):
@@ -31,9 +29,8 @@ class Receiver(models.Model):
         verbose_name = "Receiver"
         verbose_name_plural = "Receivers"
         ordering = ["name", "email"]
+        permissions = [("view_all_receivers", "View all receivers"),]
 
-    # def get_absolute_url(self):
-        # return reverse('mailing', kwargs={'mailing_id': self.id})
 
 
 # Create Model Message
