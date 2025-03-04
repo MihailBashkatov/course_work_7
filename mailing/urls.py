@@ -1,9 +1,9 @@
 from django.urls import path
 from .views import HomeTemplateView, ReceiverCreateView, ReceiverUpdateView, ReceiverDetailView, ReceiverDeleteView, \
       MessageDetailView, MessageCreateView, MessageUpdateView, MessageDeleteView, MailingPageTemplateView, \
-      ReceiverChosenView, MailingDetailView, MailingCreateView, MailingUpdateView, \
+      MailingDetailView, MailingCreateView, MailingUpdateView, \
       MailingDeleteView, AttemptDetailView, AttemptCreateView, AttemptUpdateView, AttemptDeleteView, \
-      StatisticsTemplateView, MailingListView
+      StatisticsTemplateView, MailingListView, MailingDeactivateView
 
 app_name = 'mailing'
 
@@ -25,6 +25,7 @@ urlpatterns = [
       path('mailings_create/', MailingCreateView.as_view(), name='mailing_create'),
       path('mailings_update/<int:pk>/', MailingUpdateView.as_view(), name='mailing_update'),
       path('mailings_delete/<int:pk>/', MailingDeleteView.as_view(), name='mailing_delete'),
+      path('mailings/deactivate/<int:pk>/', MailingDeactivateView.as_view(), name='mailing_deactivate'),
 
       path('attempt_detail/<int:pk>/', AttemptDetailView.as_view(), name='attempt_detail'),
       path('attempt_create/', AttemptCreateView.as_view(), name='attempt_create'),
@@ -34,8 +35,5 @@ urlpatterns = [
 
       path('mailing/', MailingPageTemplateView.as_view(), name='mailing_page_template'),
       path('statistics/', StatisticsTemplateView.as_view(), name='statistics'),
-
-      path('receiver/chosen/<int:pk>/', ReceiverChosenView.as_view(), name='receiver_chosen'),
-
 
 ]
