@@ -23,6 +23,12 @@ class HomeTemplateView(TemplateView):
     """ Home template view """
     template_name = "mailing/home.html"
 
+class ReceiversListView(LoginRequiredMixin, PermissionRequiredMixin, ListView):
+    """ Class for viewing all users. Authorization for moderators"""
+    model = Receiver
+    permission_required = 'mailing.view_all_receivers'
+
+
 
 class ReceiverDetailView(DetailView):
     """Receiver detail view """
