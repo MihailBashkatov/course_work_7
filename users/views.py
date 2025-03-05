@@ -2,7 +2,9 @@ from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMix
 from django.contrib.auth.views import LoginView
 from django.core.exceptions import PermissionDenied
 from django.core.mail import send_mail
+from django.shortcuts import get_object_or_404, redirect
 from django.urls import reverse_lazy
+from django.views import View
 from django.views.generic import CreateView
 
 from config.settings import EMAIL_HOST_USER
@@ -40,3 +42,19 @@ class UserListView(LoginRequiredMixin, PermissionRequiredMixin, ListView):
     """ Class for viewing all users. Authorization for moderators"""
     model = User
     permission_required = 'users.view_all_users'
+
+
+class UserDeactivateView(LoginRequiredMixin, PermissionRequiredMixin, View):
+    """ Change status of the User to Draft for moderators"""
+    permission_required = 'users.is_active'
+
+
+    def post(self, request, pk):
+        user = get_object_or_404(User, pk=pk)
+        if user.is_active == True:
+            user.is_active = False
+        elif user.is_active == False:
+            user.is_active = True
+        user.save()
+
+        return redirect("users:users_list")
