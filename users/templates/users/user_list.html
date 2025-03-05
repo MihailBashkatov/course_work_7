@@ -29,6 +29,19 @@
                         {% else %}
                         <p class="card-text">{{ user.phone_number }}</p>
                         {% endif %}
+                        {% if user.is_active %}
+                        <p class="card-text">User status: Active</p>
+                        <form action="{% url 'users:user_deactivate' user.pk %}" method="post">
+                            {% csrf_token %}
+                            <button class="btn btn-primary mb-3" type="submit">Block user</button>
+                        </form>
+                        {% else %}
+                        <p class="card-text">User status: Inactive</p>
+                        <form action="{% url 'users:user_deactivate' user.pk %}" method="post">
+                            {% csrf_token %}
+                            <button class="btn btn-primary mb-3" type="submit">Activate user</button>
+                        </form>
+                        {% endif %}
                     </div>
                 </div>
             {% endfor %}
