@@ -10,6 +10,7 @@ from .models import User
 class UserAdmin(admin.ModelAdmin):
     """ Registering User in Admin """
     list_display = (
+        "is_active",
         "password",
         "email",
         "name",
