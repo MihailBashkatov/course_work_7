@@ -2,7 +2,7 @@ from django.contrib.auth.views import LogoutView, PasswordResetView, PasswordRes
     PasswordResetCompleteView
 from django.urls import path, reverse_lazy
 
-from users.views import LoginUser, RegisterUser, UserListView
+from users.views import LoginUser, RegisterUser, UserListView, UserDeactivateView
 
 app_name = 'users'
 
@@ -12,6 +12,7 @@ urlpatterns = [
     path('logout/', LogoutView.as_view(), name='logout'),
     path('register/', RegisterUser.as_view(), name='register_user'),
     path('users_list/', UserListView.as_view(), name='users_list'),
+    path('deactivate/<int:pk>/', UserDeactivateView.as_view(), name='user_deactivate'),
 
     # Registering paths for changing password
     path('password-reset/',
