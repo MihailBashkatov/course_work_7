@@ -26,6 +26,7 @@ class User(AbstractUser):
         verbose_name="Saved user image",
     )
 
+    is_active = models.BooleanField(default=True, verbose_name="User status")
 
     USERNAME_FIELD = "email"
     REQUIRED_FIELDS = []
