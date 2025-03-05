@@ -17,6 +17,7 @@ from requests import Response
 from config.settings import EMAIL_HOST_USER
 from mailing.forms import ReceiverForm, MessageForm, MailingForm, AttemptForm
 from mailing.models import Receiver, Message, Mailing, Attempt
+from users.models import User
 
 
 class HomeTemplateView(TemplateView):
@@ -130,9 +131,10 @@ class StatisticsTemplateView(TemplateView):
     template_name = "mailing/statistics.html"
 
     def get(self, request, *args, **kwargs):
-        mailiing_list = Mailing.objects.all()
-        receivers_list = Receiver.objects.all()
-        attempts_list = Attempt.objects.all()
+        user = self.request.user # get user
+        mailiing_list = Mailing.objects.filter(mailing_sender=user)
+        receivers_list = Receiver.objects.filter(receiver_adder=user)
+        attempts_list = Attempt.objects.filter(attempt_sender=user)
         context = self.get_context_data(**kwargs)
         context['mailing_list'] = mailiing_list
         context['receivers_list'] = receivers_list
@@ -241,9 +243,9 @@ class AttemptCreateView(CreateView):
     success_url = reverse_lazy('mailing:home_template')
 
 
-
     def form_valid(self, form):
         """ Sending mails logic during creating a new attempt"""
+        form.instance.attempt_sender = self.request.user
         mailing = form.save()
         users = mailing.mailing.receivers.all()
         user_mail =[]
