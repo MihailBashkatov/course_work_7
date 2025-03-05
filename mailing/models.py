@@ -133,6 +133,7 @@ class Attempt(models.Model):
         verbose_name="Mailing",
         related_name="attempts",
     )
+    attempt_sender = models.ForeignKey(User, on_delete=models.CASCADE, null=False, blank=False, related_name="attempt_sender")
 
     def __str__(self):
         return f"Attempt ID: {self.id}"
