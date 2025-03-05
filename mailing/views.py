@@ -162,13 +162,14 @@ class MailingListView(LoginRequiredMixin, ListView):
 
 
 class MailingDeactivateView(LoginRequiredMixin, View):
+    """ Change status of the Mailing to Draft for moderators"""
 
     def post(self, request, pk):
         mailing = get_object_or_404(Mailing, pk=pk)
 
         if not request.user.has_perm("mailing.deactivate_mailings"):
             return HttpResponseForbidden(
-                "You do not have permission to unpublish this product"
+                "You do not have permission to change a status of the Mailing"
             )
 
         mailing.status = 'Created'
