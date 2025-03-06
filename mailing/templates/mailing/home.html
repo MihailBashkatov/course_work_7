@@ -11,7 +11,11 @@
                 </div>
                 <div class="card-body">
                     <ul class="list-unstyled mt-3 mb-4 text-start m-3">
-                        <li>- All mailings </li>
+                        <li><h2><a href="{% url 'mailing:mailing_list' %}"  class="btn btn-lg btn-block btn-outline-primary mb-4">All mailings</a></h2></li>
+                        <li><h2><a href="{% url 'mailing:receivers_list' %}"  class="btn btn-lg btn-block btn-outline-primary mb-4">All clients</a></h2></li>
+
+                        <li><h2><a href="{% url 'mailing:statistics' %}"  class="btn btn-lg btn-block btn-outline-primary mb-4">Statistics</a></h2></li>
+
                         <li>- Active mailings </li>
                         <li>- Inique receivers</li>
                     </ul>
@@ -33,7 +37,6 @@
                         <li><h2><a href="{% url 'mailing:message_create' %}"  class="btn btn-lg btn-block btn-outline-primary mb-4">Create new Message</a></h2></li>
                         <li><h2><a href="{% url 'mailing:message_create' %}"  class="btn btn-lg btn-block btn-outline-primary mb-4">Create new Mailing</a></h2></li>
 
-                        <li><h2><a href="#" class="btn btn-lg btn-block btn-outline-primary">All mailings</a></h2></li>
                         <li><h2>XXX</h2></li>
                     </ul>
                 </div>

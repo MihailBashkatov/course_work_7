@@ -22,6 +22,8 @@
                         {% endif %}
                         <p class="card-text">{{ receiver.email }}</p>
                         <p class="card-text">{{ receiver.receiver_adder }}</p>
+                        <p><a class="btn btn-danger" href="{% url 'mailing:receiver_delete' receiver.pk %}">Delete Receiver</a></p>
+                        <p><a class="btn btn-success" href="{% url 'mailing:receiver_update' receiver.pk %}">Edit Client</a></p>
                     </div>
                 </div>
             {% endfor %}
