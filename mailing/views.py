@@ -24,10 +24,25 @@ class HomeTemplateView(TemplateView):
     """ Home template view """
     template_name = "mailing/home.html"
 
-class ReceiversListView(LoginRequiredMixin, PermissionRequiredMixin, ListView):
-    """ Class for viewing all users. Authorization for moderators"""
+class ReceiversListView(LoginRequiredMixin,ListView):
+    """ Class for viewing all clients for moderators and user's clients for users """
     model = Receiver
-    permission_required = 'mailing.view_all_receivers'
+
+    def get(self, request, *args, **kwargs):
+
+        # rendering all Receivers list for moderators
+        if request.user.has_perm('mailing.view_all_receivers'):
+            self.object_list = self.get_queryset()
+            context = self.get_context_data()
+            return self.render_to_response(context)
+
+        # rendering Receivers list for particular user
+        else:
+            self.object_list = self.get_queryset()
+            user = self.request.user
+            self.object_list = self.object_list.filter(receiver_adder=user)
+            context = self.get_context_data()
+            return self.render_to_response(context)
 
 
 
@@ -54,19 +69,19 @@ class ReceiverUpdateView(UpdateView):
     model = Receiver
     form_class = ReceiverForm
     extra_context = {'title': 'Edit info about your Client'}
-    success_url = reverse_lazy('mailing:home_template')
+    success_url = reverse_lazy('mailing:receivers_list')
 
     # Adding logic to update Mailing only for user
     def get_form_class(self):
         user = self.request.user
         if user == self.object.receiver_adder:
-            return MailingForm
+            return ReceiverForm
         raise PermissionDenied
 
 
 class ReceiverDeleteView(DeleteView):
     model = Receiver
-    success_url = reverse_lazy("catalog:products_list")
+    success_url = reverse_lazy("mailing:receivers_list")
 
 
 
