@@ -37,13 +37,12 @@ class MailingForm(forms.ModelForm):
         }
 
     def __init__(self, *args, **kwargs):
+        user = kwargs.pop('user', None)
         super(MailingForm, self).__init__(*args, **kwargs)
-
         self.fields['receivers'].widget = forms.CheckboxSelectMultiple()
-        self.fields['receivers'].queryset = Receiver.objects.all()
-
+        self.fields['receivers'].queryset = Receiver.objects.filter(receiver_adder = user)
         self.fields['message'].widget = forms.RadioSelect()
-        self.fields['message'].queryset = Message.objects.all()
+        self.fields['message'].queryset = Message.objects.filter(message_sender = user)
 
 class AttemptForm(forms.ModelForm):
     """Form for Attempt Model """
