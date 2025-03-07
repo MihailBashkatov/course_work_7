@@ -3,8 +3,6 @@
                 <div class="container">
                   <div class="row">
                     <div class="col-sm-8 col-md-7 py-4">
-                          <a class="p-2 btn btn-outline-primary" href="#"><h4>Our blogs</h4></a>
-                      <p class="text-body-secondary">Here you can find more info about our products and historical facts</p>
                     </div>
                     <div class="col-sm-4 offset-md-1 py-3">
                       <h4>Usefull links</h4>
@@ -12,19 +10,11 @@
                           <li>
                               <a class="p-2 btn btn-outline-primary" href="#">Home</a>
                           </li>
-                          <li>
-                              <a class="p-2 btn btn-outline-primary" href="#">Catalog</a>
-                          </li>
-                          <li>
-                              <a class="p-2 btn btn-outline-primary" href="#"Categories</a>
-                          </li>
-                          <li><a class="p-2 btn btn-outline-primary" href="#">Contacts</a>
-                          </li>
                           {% if user.is_authenticated%}
                           <li>
                             <form method="post" action="{% url 'users:logout' %}" style="display: inline">
                                 {% csrf_token %}
-                                <button type="submit" class="p-2 btn btn-outline-primary" >LogoutHHH</button>
+                                <button type="submit" class="p-2 btn btn-outline-primary" >Logout</button>
                             </form>
                           </li>
                           {% else %}
