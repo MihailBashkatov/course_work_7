@@ -46,6 +46,8 @@ class Message(models.Model):
 
     message_chosen = models.BooleanField(default=False)
 
+    message_sender = models.ForeignKey(User, on_delete=models.CASCADE, null=False, blank=False, related_name="message_sender")
+
     def __str__(self):
         return f"{self.title}"
 
