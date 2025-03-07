@@ -35,7 +35,7 @@ class User(AbstractUser):
         verbose_name = "User"
         verbose_name_plural = "Users"
         ordering = ["email",]
-        permissions = [("view_all_users", "View all users"),]
+        permissions = [("view_all_users", "View all users"), ("deactivate_user", "Deactivate user")]
 
     def __str__(self):
         return self.email
