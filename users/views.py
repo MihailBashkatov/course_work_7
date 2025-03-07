@@ -46,7 +46,7 @@ class UserListView(LoginRequiredMixin, PermissionRequiredMixin, ListView):
 
 class UserDeactivateView(LoginRequiredMixin, PermissionRequiredMixin, View):
     """ Change status of the User to Draft for moderators"""
-    permission_required = 'users.is_active'
+    permission_required = 'users.deactivate_user'
 
 
     def post(self, request, pk):
