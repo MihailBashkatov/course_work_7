@@ -12,12 +12,12 @@ class Receiver(models.Model):
     )
     email = models.CharField(
         max_length=300,
-        unique=True,
+        unique=False,
         help_text="Insert Email address of receiver",
         verbose_name="Email",
     )
     description = models.TextField(
-        help_text="Insert comment", verbose_name="Comment"
+        help_text="Insert comment", verbose_name="Comment", null=True, blank=True
     )
 
     receiver_adder = models.ForeignKey(User, on_delete=models.CASCADE, null=False, blank=False, related_name="adder")
@@ -39,7 +39,7 @@ class Message(models.Model):
         max_length=300,
         help_text="Insert title of message",
         verbose_name="Title",
-        unique=True,  # This will ensure that each message has a unique title
+        unique=False
     )
 
     message = models.TextField(help_text="Insert subject", verbose_name="Message")
