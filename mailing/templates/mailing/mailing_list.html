@@ -3,7 +3,11 @@
 {% block content %}
 {% include 'mailing/header.html' %}
 
+{% if not object_list %}
 
+ <p class="lead">You do not have any mailings. Please, <a href="{% url 'mailing:mailing_create' %}">create first mailing</a></p>
+
+{% else %}
 <div class="row text-center">
     <div class="col-12">
         {% if user == object.mailing_sender %}
@@ -25,5 +29,6 @@
         </div>
     </div>
 </div>
+{% endif %}
 {% include 'mailing/footer.html' %}
 {% endblock %}

@@ -5,7 +5,6 @@
 
 {% if user.is_authenticated %}
 
-
 <div class="row text-center">
         <div class="col-3">
             <div class="card mb-4 box-shadow">
@@ -53,6 +52,8 @@
                         <li><h2><a href="{% url 'mailing:receiver_create' %}"  class="btn btn-lg btn-block btn-outline-primary mb-4">Create new Client</a></h2></li>
                         <li><h2><a href="{% url 'mailing:message_create' %}"  class="btn btn-lg btn-block btn-outline-primary mb-4">Create new Message</a></h2></li>
                         <li><h2><a href="{% url 'mailing:mailing_create' %}"  class="btn btn-lg btn-block btn-outline-primary mb-4">Create new Mailing</a></h2></li>
+                        <li><h2><a href="{% url 'mailing:attempt_create' %}"  class="btn btn-lg btn-block btn-outline-primary mb-4">Send Mailing</a></h2></li>
+
                     </ul>
                 </div>
             </div>
