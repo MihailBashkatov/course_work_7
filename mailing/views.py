@@ -65,6 +65,14 @@ class ReceiverCreateView(CreateView):
         form.instance.receiver_adder = self.request.user
         return super().form_valid(form)
 
+    def get_form_kwargs(self, *args, **kwargs):
+        """ Getting user pk from the request"""
+        kwargs = super(ReceiverCreateView, self).get_form_kwargs()
+
+        kwargs['user_id'] = self.request.user.pk # adding user_id to form
+        kwargs['path_info'] = self.request.path_info # adding path_info to form
+        return kwargs
+
 
 class ReceiverUpdateView(UpdateView):
     """Receiver update view """
@@ -72,13 +80,26 @@ class ReceiverUpdateView(UpdateView):
     form_class = ReceiverForm
     extra_context = {'title': 'Edit info about your Client'}
     success_url = reverse_lazy('mailing:receivers_list')
-
+#
     # Adding logic to update Receiver only for user
     def get_form_class(self):
         user = self.request.user
         if user == self.object.receiver_adder:
             return ReceiverForm
         raise PermissionDenied
+
+#
+    def form_valid(self, form):
+        # Adding logic to create Receiver only for user
+        form.instance.receiver_adder = self.request.user
+        return super().form_valid(form)
+
+    def get_form_kwargs(self, *args, **kwargs):
+        """ Getting user pk from the request"""
+        kwargs = super(ReceiverUpdateView, self).get_form_kwargs()
+        kwargs['user_id'] = self.request.user.pk # adding user_id to form
+        kwargs['path_info'] = self.request.path_info # adding path_info to form
+        return kwargs
 
 
 class ReceiverDeleteView(DeleteView):
@@ -92,7 +113,25 @@ class ReceiverDeleteView(DeleteView):
 
 
 
+class MessagesListView(LoginRequiredMixin,ListView):
+    """ Class for viewing all messages for moderators and user's messages for users """
+    model = Message
 
+    def get(self, request, *args, **kwargs):
+
+        # rendering all Messages list for moderators
+        if request.user.has_perm('mailing.view_all_receivers'):
+            self.object_list = self.get_queryset()
+            context = self.get_context_data()
+            return self.render_to_response(context)
+
+        # rendering Messages list for particular user
+        else:
+            self.object_list = self.get_queryset()
+            user = self.request.user
+            self.object_list = self.object_list.filter(message_sender=user)
+            context = self.get_context_data()
+            return self.render_to_response(context)
 
 
 class MessageDetailView(DetailView):
@@ -114,6 +153,12 @@ class MessageCreateView(CreateView):
         form.instance.message_sender = self.request.user
         return super().form_valid(form)
 
+    def get_form_kwargs(self, *args, **kwargs):
+        """ Getting user pk from the request"""
+        kwargs = super(MessageCreateView, self).get_form_kwargs()
+        kwargs['user_id'] = self.request.user.pk
+        return kwargs
+
 
 class MessageUpdateView(UpdateView):
     """Message update view """
@@ -128,6 +173,7 @@ class MessageUpdateView(UpdateView):
         if user == self.object.message_sender:
             return MessageForm
         raise PermissionDenied
+
 
 
 class MessageDeleteView(DeleteView):
