@@ -49,9 +49,14 @@ class MessageForm(forms.ModelForm):
             'message':forms.Textarea(attrs={'cols':50, 'rows' :5}),
         }
 
-    def __init__(self, *args, user_id=None, **kwargs):
+    def __init__(self, *args, user_id=None, path_info=None, **kwargs):
         super(MessageForm, self).__init__(*args, **kwargs)
         self.user_id = user_id
+        self.path_info = path_info  # getting path
+
+        if 'message_update' in self.path_info:  # if path is for update message, then title field becomes inactive
+            self.fields['title'].disabled = True  # Make email field non-editable for editing message
+            self.fields['title'].help_text = None  # Remove help_text for editing message
 
 
     def clean(self):
@@ -60,8 +65,13 @@ class MessageForm(forms.ModelForm):
         title = cleaned_data.get('title')
         user = User.objects.get(id=self.user_id)
 
-        if user.message_sender.filter(title=title).exists():
+        # Gives possibility to edit message info, but not message's title
+        if user.message_sender.filter(title=title).exists() and 'message_update' not in self.path_info:
             self.add_error('title', 'You already have such Title. Please, either insert another title or edit current message')
+
+
+
+
 
 class MailingForm(forms.ModelForm):
     """Form for Mailing Model """
