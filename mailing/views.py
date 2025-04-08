@@ -290,13 +290,25 @@ class MailingCreateView(LoginRequiredMixin, CreateView):
 
     def get_form_kwargs(self):
         kwargs = super(MailingCreateView, self).get_form_kwargs()
-        user = self.request.user
-        kwargs['user'] = user
+        user_id = self.request.user.pk
+        kwargs['user_id'] = user_id
+        kwargs['path_info'] = self.request.path_info # adding path_info to form
         return kwargs
 
     def form_valid(self, form):
         form.instance.mailing_sender = self.request.user
         return super().form_valid(form)
+
+
+
+
+
+
+
+
+
+
+
 
 
 class MailingUpdateView(LoginRequiredMixin, UpdateView):
@@ -308,11 +320,15 @@ class MailingUpdateView(LoginRequiredMixin, UpdateView):
 
     def get_form_kwargs(self):
         kwargs = super(MailingUpdateView, self).get_form_kwargs()
-        user = self.request.user
-        kwargs['user'] = user
+        user_id = self.request.user.pk
+        kwargs['user_id'] = user_id
+        kwargs['path_info'] = self.request.path_info # adding path_info to form
         return kwargs
 
-    # Adding logic to update Mailing only for user
+    def form_valid(self, form):
+        form.instance.mailing_sender = self.request.user
+        return super().form_valid(form)
+
     def get_form_class(self):
         user = self.request.user
         if user == self.object.mailing_sender:
