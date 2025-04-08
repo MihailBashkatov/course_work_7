@@ -28,6 +28,8 @@
             {% if user == object.mailing_sender %}
             <p><a class="btn btn-success" href="{% url 'mailing:mailing_update' mailing.pk %}">Edit Mailing</a></p>
             <p><a class="btn btn-danger" href="{% url 'mailing:mailing_delete' mailing.pk %}">Delete Mailing</a></p>
+            <li><h2><a href="{% url 'mailing:attempt_create' %}"  class="btn btn-lg btn-block btn-outline-primary mb-4">Send Mailing</a></h2></li>
+
             {% endif %}
 
             <a class="btn btn-primary mb-3" href="{% url 'mailing:mailing_list' %}" >Back to all mailings</a>
