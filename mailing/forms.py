@@ -83,13 +83,32 @@ class MailingForm(forms.ModelForm):
             'status':forms.TextInput(attrs={'class': 'form-input'}),
         }
 
-    def __init__(self, *args, **kwargs):
-        user = kwargs.pop('user', None)
+    def __init__(self, *args, path_info=None, **kwargs):
+        self.user_id = kwargs.pop('user_id', None)
+        self.path_info = path_info
+        print(self.path_info)
         super(MailingForm, self).__init__(*args, **kwargs)
         self.fields['receivers'].widget = forms.CheckboxSelectMultiple()
-        self.fields['receivers'].queryset = Receiver.objects.filter(receiver_adder = user)
+        self.fields['receivers'].queryset = Receiver.objects.filter(receiver_adder = self.user_id)
         self.fields['message'].widget = forms.RadioSelect()
-        self.fields['message'].queryset = Message.objects.filter(message_sender = user)
+        self.fields['message'].queryset = Message.objects.filter(message_sender = self.user_id)
+
+
+    def clean(self):
+        """ Logic for creating only unique Mailing per user """
+        cleaned_data = super().clean()
+        title = cleaned_data.get('message')
+        user = User.objects.get(id=self.user_id)
+
+        #Gives possibility to edit mailing info, but not mailing's title
+        if user.sender.filter(message__title=title).exists() and 'mailings_update' not in self.path_info:
+            self.add_error('message', 'You already have Mailing with such title. Please, choose another mailing or edit current one')
+
+
+
+
+
+
 
 class AttemptForm(forms.ModelForm):
     """Form for Attempt Model """
