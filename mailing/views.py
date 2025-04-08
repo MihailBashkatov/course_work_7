@@ -156,8 +156,10 @@ class MessageCreateView(CreateView):
     def get_form_kwargs(self, *args, **kwargs):
         """ Getting user pk from the request"""
         kwargs = super(MessageCreateView, self).get_form_kwargs()
-        kwargs['user_id'] = self.request.user.pk
+        kwargs['user_id'] = self.request.user.pk # adding user_id to form
+        kwargs['path_info'] = self.request.path_info # adding path_info to form
         return kwargs
+
 
 
 class MessageUpdateView(UpdateView):
@@ -173,6 +175,20 @@ class MessageUpdateView(UpdateView):
         if user == self.object.message_sender:
             return MessageForm
         raise PermissionDenied
+
+#
+    def form_valid(self, form):
+        # Adding logic to update Message only for user
+        form.instance.receiver_adder = self.request.user
+        return super().form_valid(form)
+
+    def get_form_kwargs(self, *args, **kwargs):
+        """ Getting user pk from the request"""
+        kwargs = super(MessageUpdateView, self).get_form_kwargs()
+        kwargs['user_id'] = self.request.user.pk # adding user_id to form
+        kwargs['path_info'] = self.request.path_info # adding path_info to form
+        return kwargs
+
 
 
 
