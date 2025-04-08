@@ -10,8 +10,8 @@
   <form method="post">
     {% csrf_token %}
     <button type="submit" class="btn btn-danger">Continue to delete</button>
-    <a href="#" class="btn btn-primary">Reject</a>
-    <a href="#" class="btn btn-primary">Back to list of messages</a>
+    <a href="{% url 'mailing:message_update' message.pk %}"class="btn btn-primary">Reject</a>
+    <a href="{% url 'mailing:messages_list' %}" class="btn btn-primary">Back to list of messages</a>
 
   </form>
 
