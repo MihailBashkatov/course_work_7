@@ -61,12 +61,12 @@ class Message(models.Model):
 
 # Create Model Mailing
 class Mailing(models.Model):
-    CREATED = "Created"
+    DRAFT = "Draft"
     LAUNCHED = "Launched"
     COMPLETED = "Completed"
 
     STATUS_CHOICES = [
-        (CREATED, "Created"),
+        (DRAFT, "Draft"),
         (LAUNCHED, "Launched"),
         (COMPLETED, "Completed"),
     ]
@@ -86,7 +86,7 @@ class Mailing(models.Model):
     status = models.CharField(
         max_length=9,
         choices=STATUS_CHOICES,
-        default=CREATED,
+        default=DRAFT,
         verbose_name="Mailing status",
     )
 
