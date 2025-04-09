@@ -24,8 +24,13 @@
                         {% endif %}
                         <p class="card-text">{{ receiver.email }}</p>
                         <p class="card-text">{{ receiver.receiver_adder }}</p>
+
+                        {% if  not "users.deactivate_user" in perms %}
                         <p><a class="btn btn-danger" href="{% url 'mailing:receiver_delete' receiver.pk %}">Delete Client</a></p>
                         <p><a class="btn btn-success" href="{% url 'mailing:receiver_update' receiver.pk %}">Edit Client</a></p>
+                        {% endif %}
+
+
                     </div>
                 </div>
             {% endfor %}
