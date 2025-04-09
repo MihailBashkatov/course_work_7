@@ -17,7 +17,7 @@ class Receiver(models.Model):
         verbose_name="Email",
     )
     description = models.TextField(
-        help_text="Insert comment", verbose_name="Comment", null=True, blank=True
+        verbose_name="Comment", null=True, blank=True
     )
 
     receiver_adder = models.ForeignKey(User, on_delete=models.CASCADE, null=False, blank=False, related_name="adder")
