@@ -365,6 +365,14 @@ class AttemptCreateView(CreateView):
     success_url = reverse_lazy('mailing:home_template')
 
 
+    def get_form_kwargs(self):
+        kwargs = super(AttemptCreateView, self).get_form_kwargs()
+        user_id = self.request.user.pk
+        kwargs['user_id'] = user_id
+        return kwargs
+
+
+
     def form_valid(self, form):
         """ Sending mails logic during creating a new attempt"""
         form.instance.attempt_sender = self.request.user
@@ -388,6 +396,7 @@ class AttemptCreateView(CreateView):
         mailing.mailing.status = 'Completed'
         mailing.mailing.save()
         return super().form_valid(form)
+
 
     def send_mailing(self, user_mail):
         subject = 'Welcome Trial!'
