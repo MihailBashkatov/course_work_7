@@ -106,6 +106,15 @@ class ReceiverDeleteView(DeleteView):
     model = Receiver
     success_url = reverse_lazy("mailing:receivers_list")
 
+    # Adding logic to delete Client only for user
+
+    def post(self, request, *args, **kwargs):
+        user = self.request.user
+        self.object = self.get_object()
+        if user == self.object.receiver_adder:
+            return super().post(request, *args, **kwargs)
+        raise PermissionDenied
+
 
 
 
@@ -196,6 +205,13 @@ class MessageDeleteView(DeleteView):
     model = Message
     success_url = reverse_lazy('mailing:home_template')
 
+    def post(self, request, *args, **kwargs):
+        user = self.request.user
+        self.object = self.get_object()
+        if user == self.object.message_sender:
+            return super().post(request, *args, **kwargs)
+        raise PermissionDenied
+
 
 
 
@@ -266,7 +282,7 @@ class MailingDeactivateView(LoginRequiredMixin, View):
                 "You do not have permission to change a status of the Mailing"
             )
 
-        mailing.status = 'Created'
+        mailing.status = 'Draft'
         mailing.save()
 
         return redirect("mailing:mailing_list")
