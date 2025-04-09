@@ -86,7 +86,6 @@ class MailingForm(forms.ModelForm):
     def __init__(self, *args, path_info=None, **kwargs):
         self.user_id = kwargs.pop('user_id', None)
         self.path_info = path_info
-        print(self.path_info)
         super(MailingForm, self).__init__(*args, **kwargs)
         self.fields['receivers'].widget = forms.CheckboxSelectMultiple()
         self.fields['receivers'].queryset = Receiver.objects.filter(receiver_adder = self.user_id)
@@ -115,3 +114,12 @@ class AttemptForm(forms.ModelForm):
     class Meta:
         model = Attempt
         fields = ['mailing']
+
+
+    def __init__(self, *args, path_info=None, **kwargs):
+        self.user_id = kwargs.pop('user_id', None)
+        super(AttemptForm, self).__init__(*args, **kwargs)
+        self.fields['mailing'].widget = forms.RadioSelect()
+        self.fields['mailing'].queryset = Mailing.objects.filter(mailing_sender = self.user_id)
+
+
