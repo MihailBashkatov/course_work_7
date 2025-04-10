@@ -2,7 +2,7 @@ from django.urls import path
 from django.views.decorators.cache import cache_page
 
 from .views import HomeTemplateView, ReceiverCreateView, ReceiverUpdateView, ReceiverDetailView, ReceiverDeleteView, \
-      MessageDetailView, MessageCreateView, MessageUpdateView, MessageDeleteView, MailingPageTemplateView, \
+      MessageDetailView, MessageCreateView, MessageUpdateView, MessageDeleteView, \
       MailingDetailView, MailingCreateView, MailingUpdateView, \
       MailingDeleteView, AttemptDetailView, AttemptCreateView, AttemptUpdateView, AttemptDeleteView, \
       StatisticsTemplateView, MailingListView, MailingDeactivateView, ReceiversListView, MessagesListView
