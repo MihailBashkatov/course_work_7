@@ -6,6 +6,7 @@ from smtplib import SMTPResponseException, SMTPRecipientsRefused, SMTPException
 
 from django import forms
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
+from django.core.cache import cache
 from django.core.exceptions import PermissionDenied
 from django.core.mail import send_mail
 from django.http import HttpResponseForbidden
@@ -18,6 +19,7 @@ from requests import Response
 from config.settings import EMAIL_HOST_USER
 from mailing.forms import ReceiverForm, MessageForm, MailingForm, AttemptForm
 from mailing.models import Receiver, Message, Mailing, Attempt
+from mailing.services import get_messages_from_cache
 from users.models import User
 
 
@@ -44,6 +46,13 @@ class ReceiversListView(LoginRequiredMixin,ListView):
             self.object_list = self.object_list.filter(receiver_adder=user)
             context = self.get_context_data()
             return self.render_to_response(context)
+
+    def get_queryset(self):
+        queryset = cache.get('my_queryset')
+        if not queryset:
+            queryset = super().get_queryset()
+            cache.set('my_queryset', queryset, 60 * 15)  # Кешируем данные на 15 минут
+        return queryset
 
 
 
@@ -142,6 +151,9 @@ class MessagesListView(LoginRequiredMixin,ListView):
             context = self.get_context_data()
             return self.render_to_response(context)
 
+    def get_queryset(self):
+        user = self.request.user
+        return get_messages_from_cache(user)
 
 class MessageDetailView(DetailView):
     """Messaage detail view """
