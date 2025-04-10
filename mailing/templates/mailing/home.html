@@ -4,6 +4,7 @@
 {% include 'mailing/header.html' %}
 
 {% if user.is_authenticated %}
+{% if  not "users.deactivate_user" in perms %}
 
 <div class="row text-center">
         <div class="col-3">
@@ -25,22 +26,7 @@
 
 
         <div class="col-5">
-            {% if  "users.deactivate_user" in perms %}
-<div class="card mb-4 box-shadow">
-                <div class="card-header">
-                    <h4 class="my-0 font-weight-normal">Information for moderators</h4>
-                </div>
-                <div class="card-body">
-                    <ul class="list-unstyled mt-3 mb-4 text-start m-3">
-                        <li><h2><a href="{% url 'mailing:mailing_list' %}"  class="btn btn-lg btn-block btn-outline-primary mb-4">All mailings</a></h2></li>
-                        <li><h2><a href="{% url 'mailing:receivers_list' %}"  class="btn btn-lg btn-block btn-outline-primary mb-4">All clients</a></h2></li>
-                        <li><h2><a href="{% url 'mailing:messages_list' %}"  class="btn btn-lg btn-block btn-outline-primary mb-4">All messages</a></h2></li>
 
-                        <li><h2><a href="{% url 'users:users_list' %}"  class="btn btn-lg btn-block btn-outline-primary mb-4">All users</a></h2></li>
-                    </ul>
-                </div>
-            </div>
-            {% endif %}
 
         </div>
 
@@ -62,6 +48,23 @@
         </div>
 
     </div>
+{% else %}
+
+<div class="card mb-4 box-shadow">
+                <div class="card-header">
+                    <h4 class="my-0 font-weight-normal">Information for moderators</h4>
+                </div>
+                <div class="card-body">
+                    <ul class="list-unstyled mt-3 mb-4 text-start m-3">
+                        <li><h2><a href="{% url 'mailing:mailing_list' %}"  class="btn btn-lg btn-block btn-outline-primary mb-4">All mailings</a></h2></li>
+                        <li><h2><a href="{% url 'mailing:receivers_list' %}"  class="btn btn-lg btn-block btn-outline-primary mb-4">All clients</a></h2></li>
+                        <li><h2><a href="{% url 'mailing:messages_list' %}"  class="btn btn-lg btn-block btn-outline-primary mb-4">All messages</a></h2></li>
+
+                        <li><h2><a href="{% url 'users:users_list' %}"  class="btn btn-lg btn-block btn-outline-primary mb-4">All users</a></h2></li>
+                    </ul>
+                </div>
+            </div>
+            {% endif %}
 {% else %}
 
  <p class="lead">Please, <a href="{% url 'users:login' %}">Login</a> to enter to the site</p>
