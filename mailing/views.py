@@ -19,7 +19,7 @@ from requests import Response
 from config.settings import EMAIL_HOST_USER
 from mailing.forms import ReceiverForm, MessageForm, MailingForm, AttemptForm
 from mailing.models import Receiver, Message, Mailing, Attempt
-from mailing.services import get_messages_from_cache
+from mailing.services import get_messages_from_cache, get_mailings_from_cache
 from users.models import User
 
 
@@ -47,12 +47,12 @@ class ReceiversListView(LoginRequiredMixin,ListView):
             context = self.get_context_data()
             return self.render_to_response(context)
 
-    def get_queryset(self):
-        queryset = cache.get('my_queryset')
-        if not queryset:
-            queryset = super().get_queryset()
-            cache.set('my_queryset', queryset, 60 * 15)  # Кешируем данные на 15 минут
-        return queryset
+    # def get_queryset(self):
+    #     queryset = cache.get('my_queryset')
+    #     if not queryset:
+    #         queryset = super().get_queryset()
+    #         cache.set('my_queryset', queryset, 60 * 15)  # Кешируем данные на 15 минут
+    #     return queryset
 
 
 
@@ -153,7 +153,9 @@ class MessagesListView(LoginRequiredMixin,ListView):
 
     def get_queryset(self):
         user = self.request.user
-        return get_messages_from_cache(user)
+        if not self.request.user.has_perm('mailing.view_all_mailings'):
+            return get_messages_from_cache(user)
+        return super().get_queryset()
 
 class MessageDetailView(DetailView):
     """Messaage detail view """
@@ -232,17 +234,17 @@ class MessageDeleteView(DeleteView):
 
 
 
-class MailingPageTemplateView(TemplateView):
-    """ MailingPage template view """
-    template_name = "mailing/mailing_page.html"
-
-    def get(self, request, *args, **kwargs):
-        messages_list = Message.objects.all()
-        receivers_list = Receiver.objects.all()
-        context = self.get_context_data(**kwargs)
-        context['messages_list'] = messages_list
-        context['receivers_list'] = receivers_list
-        return self.render_to_response(context)
+# class MailingPageTemplateView(TemplateView):
+#     """ MailingPage template view """
+#     template_name = "mailing/mailing_page.html"
+#
+#     def get(self, request, *args, **kwargs):
+#         messages_list = Message.objects.all()
+#         receivers_list = Receiver.objects.all()
+#         context = self.get_context_data(**kwargs)
+#         context['messages_list'] = messages_list
+#         context['receivers_list'] = receivers_list
+#         return self.render_to_response(context)
 
 
 
@@ -282,6 +284,12 @@ class MailingListView(LoginRequiredMixin, ListView):
             context = self.get_context_data()
             return self.render_to_response(context)
 
+
+    def get_queryset(self):
+        user = self.request.user
+        if not self.request.user.has_perm('mailing.view_all_mailings'):
+            return get_mailings_from_cache(user)
+        return super().get_queryset()
 
 class MailingDeactivateView(LoginRequiredMixin, View):
     """ Change status of the Mailing to Draft for moderators"""
