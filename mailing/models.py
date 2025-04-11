@@ -16,11 +16,11 @@ class Receiver(models.Model):
         help_text="Insert Email address of receiver",
         verbose_name="Email",
     )
-    description = models.TextField(
-        verbose_name="Comment", null=True, blank=True
-    )
+    description = models.TextField(verbose_name="Comment", null=True, blank=True)
 
-    receiver_adder = models.ForeignKey(User, on_delete=models.CASCADE, null=False, blank=False, related_name="adder")
+    receiver_adder = models.ForeignKey(
+        User, on_delete=models.CASCADE, null=False, blank=False, related_name="adder"
+    )
 
     def __str__(self):
         return f"{self.name}. Email: {self.email}"
@@ -29,8 +29,9 @@ class Receiver(models.Model):
         verbose_name = "Receiver"
         verbose_name_plural = "Receivers"
         ordering = ["name", "email"]
-        permissions = [("view_all_receivers", "View all receivers"),]
-
+        permissions = [
+            ("view_all_receivers", "View all receivers"),
+        ]
 
 
 # Create Model Message
@@ -39,14 +40,20 @@ class Message(models.Model):
         max_length=300,
         help_text="Insert title of message",
         verbose_name="Title",
-        unique=False
+        unique=False,
     )
 
     message = models.TextField(help_text="Insert subject", verbose_name="Message")
 
     message_chosen = models.BooleanField(default=False)
 
-    message_sender = models.ForeignKey(User, on_delete=models.CASCADE, null=False, blank=False, related_name="message_sender")
+    message_sender = models.ForeignKey(
+        User,
+        on_delete=models.CASCADE,
+        null=False,
+        blank=False,
+        related_name="message_sender",
+    )
 
     def __str__(self):
         return f"{self.title}"
@@ -74,7 +81,9 @@ class Mailing(models.Model):
     first_sending = models.DateTimeField(
         auto_now=True, verbose_name="Date and time of first sending"
     )
-    end_sending = models.DateTimeField(verbose_name="Date and time of ends sending", null=True, blank=True)
+    end_sending = models.DateTimeField(
+        verbose_name="Date and time of ends sending", null=True, blank=True
+    )
 
     message = models.ForeignKey(
         Message,
@@ -96,7 +105,9 @@ class Mailing(models.Model):
         verbose_name="receivers",
     )
 
-    mailing_sender = models.ForeignKey(User, on_delete=models.CASCADE, null=False, blank=False, related_name="sender")
+    mailing_sender = models.ForeignKey(
+        User, on_delete=models.CASCADE, null=False, blank=False, related_name="sender"
+    )
 
     def __str__(self):
         return f"Mailing title '{self.message}'"
@@ -105,8 +116,10 @@ class Mailing(models.Model):
         verbose_name = "Mailing"
         verbose_name_plural = "Mailings"
         ordering = ["first_sending"]
-        permissions = [("view_all_mailings", "View all mailings"), ("deactivate_mailings", "Deactivate mailings")]
-
+        permissions = [
+            ("view_all_mailings", "View all mailings"),
+            ("deactivate_mailings", "Deactivate mailings"),
+        ]
 
 
 # Create Model Attempt
@@ -135,7 +148,13 @@ class Attempt(models.Model):
         verbose_name="Mailing",
         related_name="attempts",
     )
-    attempt_sender = models.ForeignKey(User, on_delete=models.CASCADE, null=False, blank=False, related_name="attempt_sender")
+    attempt_sender = models.ForeignKey(
+        User,
+        on_delete=models.CASCADE,
+        null=False,
+        blank=False,
+        related_name="attempt_sender",
+    )
 
     def __str__(self):
         return f"Attempt ID: {self.id}"
@@ -144,4 +163,3 @@ class Attempt(models.Model):
         verbose_name = "Attempt"
         verbose_name_plural = "Attempts"
         ordering = ["attempt_time"]
-

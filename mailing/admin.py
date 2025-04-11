@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from .models import Receiver, Message, Mailing, Attempt
+from .models import Attempt, Mailing, Message, Receiver
 
 
 # Register admin for Receiver model
@@ -23,12 +23,8 @@ class ReceiverAdmin(admin.ModelAdmin):
 # Register admin for Message model
 @admin.register(Message)
 class MessageAdmin(admin.ModelAdmin):
-    list_display = (
-        "title",
-        "message",
-        'message_chosen'
-    )
-    list_editable = ('message_chosen',)
+    list_display = ("title", "message", "message_chosen")
+    list_editable = ("message_chosen",)
     list_filter = ("title",)
     search_fields = (
         "title",
@@ -43,19 +39,18 @@ class MailingAdmin(admin.ModelAdmin):
         "first_sending",
         "end_sending",
         "status",
-        # "receivers__email",
         "get_receivers",
         "message__title",
     )
-    list_editable = ('status',)
+    list_editable = ("status",)
     list_filter = ("status",)
-    filter_horizontal = ['receivers']
+    filter_horizontal = ["receivers"]
     search_fields = (
         "status",
         "receivers__name",
     )
 
-    @admin.display(description='receivers')
+    @admin.display(description="receivers")
     def get_receivers(self, obj):
         return [receiver.email for receiver in obj.receivers.all()]
 
@@ -76,6 +71,6 @@ class AttemptAdmin(admin.ModelAdmin):
         "server_respond",
     )
 
-    @admin.display(description='receivers')
+    @admin.display(description="receivers")
     def get_receivers(self, obj):
         return [receiver.email for receiver in obj.mailing.receivers.all()]

@@ -1,17 +1,21 @@
 from django.urls import path
 from django.views.decorators.cache import cache_page
 
-from .views import HomeTemplateView, ReceiverCreateView, ReceiverUpdateView, ReceiverDetailView, ReceiverDeleteView, \
-      MessageDetailView, MessageCreateView, MessageUpdateView, MessageDeleteView, \
-      MailingDetailView, MailingCreateView, MailingUpdateView, \
-      MailingDeleteView, AttemptDetailView, AttemptCreateView, AttemptUpdateView, AttemptDeleteView, \
-      StatisticsTemplateView, MailingListView, MailingDeactivateView, ReceiversListView, MessagesListView
+from .views import (AttemptCreateView, AttemptDeleteView, AttemptDetailView,
+                    AttemptUpdateView, HomeTemplateView, MailingCreateView,
+                    MailingDeactivateView, MailingDeleteView,
+                    MailingDetailView, MailingListView, MailingUpdateView,
+                    MessageCreateView, MessageDeleteView, MessageDetailView,
+                    MessagesListView, MessageUpdateView, ReceiverCreateView,
+                    ReceiverDeleteView, ReceiverDetailView, ReceiversListView,
+                    ReceiverUpdateView, StatisticsTemplateView)
 
 app_name = 'mailing'
 
 """ Registering URL adresses for mailing app"""
 urlpatterns = [
       path('home/', HomeTemplateView.as_view(), name='home_template'),
+
       path('receiver/<int:pk>/', cache_page(60)(ReceiverDetailView.as_view()), name='receiver_detail'),
       path('receiver_create/', ReceiverCreateView.as_view(), name='receiver_create'),
       path('receiver_update/<int:pk>/', ReceiverUpdateView.as_view(), name='receiver_update'),
@@ -36,8 +40,6 @@ urlpatterns = [
       path('attempt_update/<int:pk>/', AttemptUpdateView.as_view(), name='attempt_update'),
       path('attempt_delete/<int:pk>/', AttemptDeleteView.as_view(), name='attempt_delete'),
 
-
-      # path('mailing/', MailingPageTemplateView.as_view(), name='mailing_page_template'),
       path('statistics/', StatisticsTemplateView.as_view(), name='statistics'),
 
 ]
