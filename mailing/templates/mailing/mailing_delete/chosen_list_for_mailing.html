@@ -1,0 +1,51 @@
+{% extends 'mailing/base.html' %}
+{% block title %} Home page {% endblock %}
+{% block content %}
+{% include 'mailing/header.html' %}
+
+<div class="row text-center">
+        <div class="col-3">
+            <div class="card mb-4 box-shadow">
+                <div class="card-header">
+                    <h4 class="my-0 font-weight-normal">Information about mailings</h4>
+                </div>
+                <div class="card-body">
+                  <ul class="list-unstyled mt-3 mb-4 text-start m-3">
+                      {% for receiver in receivers_list %}
+
+
+                          <h2 class="fw-normal" class="card-title"></h2>
+                      <a href="{% url 'mailing:receiver_detail' receiver.pk %}">{{receiver.email}}</a>
+                    {% endfor %}
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-5">
+        </div>
+
+        <div class="col-3">
+            <div class="card mb-4 box-shadow">
+                <div class="card-header">
+                    <h4 class="my-0 font-weight-normal">Creates mailing</h4>
+                </div>
+                <div class="card-body">
+                    <ul class="list-unstyled mt-3 mb-4 text-start m-3">
+                    {% for message in messages_list %}
+
+
+                          <h2 class="fw-normal" class="card-title"></h2>
+                      <a href="{% url 'mailing:message_detail' message.pk %}">{{message.title}}</a>
+                      <p class="card-text">{{message.message|truncatechars:50}}</p>
+                      <p><a class="btn btn-secondary" href="{% url 'mailing:message_detail' message.pk %}">Entire message</a></p>
+                    {% endfor %}
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+{% include 'mailing/footer.html' %}
+{% endblock %}

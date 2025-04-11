@@ -1,0 +1,52 @@
+{% extends 'mailing/base.html' %}
+{% block title %}List of Users{% endblock %}
+{% block content %}
+{% include 'mailing/header.html' %}
+
+
+<div class="row text-center">
+    <div class="col-12">
+        <div class="d-flex flex-wrap">
+            {% for user in object_list %}
+                <div class="card ms-4 mb-5" style="width: 25rem">
+                    <div class="card-body mb-3">
+                      {% if user.avatar %}
+                       <img class="bd-placeholder-img rounded-circle" width="140" height="140" src="{{ user.avatar.url }}" class="card-img-top" alt="..." role="img" aria-label="Placeholder" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="var(--bs-secondary-color)"/></svg>
+                      {% endif %}
+                        {% if not user.name%}
+                        <h2 class="fw-normal" class="card-title">User name is not defined</h2>
+                        {% else %}
+                       <h2 class="fw-normal" class="card-title">{{ user.name }}</h2>
+                        {% endif %}
+                        {% if not user.last_name%}
+                        <h2 class="fw-normal" class="card-title">User last name is not defined</h2>
+                        {% else %}
+                        <p class="card-text">{{ user.last_name }}</p>
+                        {% endif %}
+                        <p class="card-text">{{ user.email }}</p>
+                        {% if not user.phone_number %}
+                        <h2 class="fw-normal" class="card-title">User phone number is not defined</h2>
+                        {% else %}
+                        <p class="card-text">{{ user.phone_number }}</p>
+                        {% endif %}
+                        {% if user.is_active %}
+                        <p class="card-text">User status: Active</p>
+                        <form action="{% url 'users:user_deactivate' user.pk %}" method="post">
+                            {% csrf_token %}
+                            <button class="btn btn-primary mb-3" type="submit">Block user</button>
+                        </form>
+                        {% else %}
+                        <p class="card-text">User status: Inactive</p>
+                        <form action="{% url 'users:user_deactivate' user.pk %}" method="post">
+                            {% csrf_token %}
+                            <button class="btn btn-primary mb-3" type="submit">Activate user</button>
+                        </form>
+                        {% endif %}
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+{% include 'mailing/footer.html' %}
+{% endblock %}

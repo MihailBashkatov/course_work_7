@@ -1,0 +1,27 @@
+from django.core.management.base import BaseCommand
+
+from django.contrib.auth import get_user_model
+
+
+class Command(BaseCommand):
+    """Command to create superuser"""
+
+    def handle(self, *args, **kwargs):
+        user = get_user_model()
+        user = user.objects.create(
+            email="test@test.com",
+            first_name="Admin",
+            last_name="Admin",
+        )
+
+        user.set_password("1234")
+        user.is_active = True
+        user.is_staff = True
+        user.is_superuser = True
+        user.save()
+
+        self.stdout.write(
+            self.style.SUCCESS(
+                f"Successfully created admin user with email {user.email}"
+            )
+        )

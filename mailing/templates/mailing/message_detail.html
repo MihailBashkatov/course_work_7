@@ -1,0 +1,9 @@
+{% extends 'mailing/base.html' %}
+{% block title %} Message: {{ object.title }} {% endblock %}
+
+{% block content %}
+{% include 'mailing/header.html' %}
+    <h2> Message </h2>
+    Title: {{ object.title }}
+    Message: {{ object.message|linebreaks }}
+{% endblock %}

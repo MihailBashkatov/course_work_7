@@ -1,0 +1,41 @@
+{% extends 'mailing/base.html' %}
+{% block title %}List of Users{% endblock %}
+{% block content %}
+{% include 'mailing/header.html' %}
+
+{% if not object_list %}
+    <p class="lead">You do not have any clients. Please, <a
+            href="{% url 'mailing:receiver_create' %}">create first client</a>
+    </p>
+{% else %}
+<div class="row text-center">
+    <div class="col-12">
+        <div class="d-flex flex-wrap">
+            {% for receiver in object_list %}
+                <div class="card ms-4 mb-5" style="width: 25rem">
+                    <div class="card-body mb-3">
+                        <h2 class="card-title">{{ receiver.name }}</h2>
+                        {% if not receiver.description %}
+                            <h5 class="card-title">Receiver description is not defined</h5>
+                        {% else %}
+                            <p class="card-text">{{ receiver.description }}</p>
+                        {% endif %}
+                        <p class="card-text">{{ receiver.email }}</p>
+                        <p class="card-text">{{ receiver.receiver_adder }}</p>
+                        {% if  not "users.deactivate_user" in perms %}
+                            <p><a class="btn btn-danger"
+                                  href="{% url 'mailing:receiver_delete' receiver.pk %}">Delete Client</a>
+                            </p>
+                            <p><a class="btn btn-success"
+                                  href="{% url 'mailing:receiver_update' receiver.pk %}">Edit Client</a>
+                            </p>
+                        {% endif %}
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+{% endif %}
+{% include 'mailing/footer.html' %}
+{% endblock %}

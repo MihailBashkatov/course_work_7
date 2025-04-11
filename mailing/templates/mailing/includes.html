@@ -1,0 +1,43 @@
+<header data-bs-theme="light">
+    <div class="collapse text-bg-dark" id="navbarHeader">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-8 col-md-7 py-4">
+                </div>
+                <div class="col-sm-4 offset-md-1 py-3">
+                    <h4>Usefull links</h4>
+                    <ul class="list-unstyled">
+                        <li>
+                            <a class="p-2 btn btn-outline-primary" href="{% url 'mailing:home_template' %}">Home</a>
+                        </li>
+                        {% if user.is_authenticated%}
+                            <li>
+                                <form action="{% url 'users:logout' %}" method="post" style="display: inline">
+                                    {% csrf_token %}
+                                    <button class="p-2 btn btn-outline-primary" type="submit">Logout</button>
+                                </form>
+                            </li>
+                        {% else %}
+                            <li>
+                                <a class="p-2 btn btn-outline-primary" href="{% url 'users:login' %}">Login</a>
+                            </li>
+                            <li>
+                                 <a class="p-2 btn btn-outline-primary" href="{% url 'users:register_user' %}">Registration</a>
+                            </li>
+                        {% endif %}
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="navbar navbar-dark bg-dark shadow-sm">
+        <div class="container">
+            <a class="navbar-brand d-flex align-items-center" href="#"></a>
+            <button aria-controls="navbarHeader" aria-expanded="false" aria-label="Toggle navigation"
+                    class="navbar-toggler" data-bs-target="#navbarHeader" data-bs-toggle="collapse" type="button">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+        </div>
+    </div>
+</header>

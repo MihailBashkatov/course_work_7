@@ -1,0 +1,13 @@
+{% extends 'mailing/base.html' %}
+{% block title %}Delete client: {{object.name}} {% endblock %}
+{% block content %}
+{% include 'mailing/header.html' %}
+<h2>Delete client {{ object.name }}</h2>
+<p>Are you sure you want to delete {{ object.name }}?</p>
+    <form method="post">
+        {% csrf_token %}
+          <button type="submit" class="btn btn-danger">Continue to delete</button>
+          <a href="{% url 'mailing:receiver_update' receiver.pk %}" class="btn btn-primary">Reject</a>
+          <a href="{% url 'mailing:receivers_list' %}" class="btn btn-primary">Back to list of clients</a>
+    </form>
+{% endblock %}
