@@ -11,14 +11,16 @@
                     <div class="card-body">
                         {% csrf_token %}
                             {{ form.as_p }}
-                                <button class="btn btn-primary" type="submit">
+                                <button class="btn btn-primary mt=3" type="submit">
                                     {% if object %}
                                         Update message
                                     {% else %}
                                         Create message
                                     {% endif %}
                                 </button>
-                        <a class="btn btn-primary" href="{% url 'mailing:messages_list' %}">Back to list of messages</a>
+                        <p><a class="btn btn-success mt-3"
+                              href="{% url 'mailing:messages_list' %}">Back to list of Messages</a>
+                        </p>
                     </div>
                 </div>
             </form>

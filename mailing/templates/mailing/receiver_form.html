@@ -12,14 +12,14 @@
                         <div class="card-body">
                             {% csrf_token %}
                                 {{ form.as_p }}
-                                    <button class="btn btn-primary" type="submit">
+                                    <button class="btn btn-primary mt=3" type="submit">
                                         {% if object %}
                                             Update
                                         {% else %}
                                             Add client
                                         {% endif %}
                                     </button>
-                            <p><a class="btn btn-success" href="{% url 'mailing:receivers_list' %}">Back to all Clients</a></p>
+                            <p><a class="btn btn-success mt-3" href="{% url 'mailing:receivers_list' %}">Back to all Clients</a></p>
                         </div>
                     </div>
                 </form>
