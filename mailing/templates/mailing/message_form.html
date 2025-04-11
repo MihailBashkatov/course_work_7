@@ -1,25 +1,24 @@
 {% extends 'mailing/base.html' %}
 {% block title %}Add your client{% endblock %}
-
 {% block content %}
 {% include 'mailing/header.html' %}
 <h2> {{ title }} </h2>
 <div class="container">
     <div class="row">
         <div class="col-6">
-            <form class="row" method="post" enctype="multipart/form-data">
+            <form class="row" enctype="multipart/form-data" method="post">
                 <div class="card">
                     <div class="card-body">
                         {% csrf_token %}
-                        {{ form.as_p }}
-                        <button type="submit" class="btn btn-primary">
-                        {% if object %}
-                            Update message
-                        {% else %}
-                            Create message
-                        {% endif %}
-                        </button>
-                        <a href="{% url 'mailing:messages_list' %}" class="btn btn-primary">Back to list of messages</a>
+                            {{ form.as_p }}
+                                <button class="btn btn-primary" type="submit">
+                                    {% if object %}
+                                        Update message
+                                    {% else %}
+                                        Create message
+                                    {% endif %}
+                                </button>
+                        <a class="btn btn-primary" href="{% url 'mailing:messages_list' %}">Back to list of messages</a>
                     </div>
                 </div>
             </form>

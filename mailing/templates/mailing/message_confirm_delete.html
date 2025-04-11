@@ -7,12 +7,11 @@
 <h2>Delete message {{ object.title }}</h2>
 <p>Are you sure you want to delete {{ object.title }}?</p>
 
-  <form method="post">
+<form method="post">
     {% csrf_token %}
-    <button type="submit" class="btn btn-danger">Continue to delete</button>
-    <a href="{% url 'mailing:message_update' message.pk %}"class="btn btn-primary">Reject</a>
-    <a href="{% url 'mailing:messages_list' %}" class="btn btn-primary">Back to list of messages</a>
-
-  </form>
+      <button type="submit" class="btn btn-danger">Continue to delete</button>
+      <a href="{% url 'mailing:message_update' message.pk %}"class="btn btn-primary">Reject</a>
+      <a href="{% url 'mailing:messages_list' %}" class="btn btn-primary">Back to list of messages</a>
+</form>
 
 {% endblock %}

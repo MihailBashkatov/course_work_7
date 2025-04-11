@@ -4,25 +4,32 @@
 {% include 'mailing/header.html' %}
 
 {% if not object_list %}
-
-<p class="lead">You do not have any messages. Please, <a href="{% url 'mailing:message_create' %}">create first message</a></p>
+    <p class="lead">You do not have any messages. Please, <a
+            href="{% url 'mailing:message_create' %}">create first message</a></p>
 
 {% else %}
 <div class="row text-center">
     <div class="col-12">
         {% if user == object.message_sender %}
-        <p><a class="btn btn-success" href="{% url 'mailing:mailing_create' %}">Add Message</a></p>
+            <p><a class="btn btn-success" href="{% url 'mailing:mailing_create' %}">Add Message</a></p>
         {% endif %}
+
         <div class="d-flex flex-wrap">
             {% for message in object_list %}
                 <div class="card ms-4 mb-5" style="width: 25rem">
                     <div class="card-body mb-3">
-                       <h2 class="fw-normal" class="cardtitle">{{ message.title }}</h2>
-                        <p><a class="card-text" href="{% url 'mailing:message_detail' message.pk %}">{{ message.message|truncatechars:100 }}</a></p>
+                        <h2 class="cardtitle">{{ message.title }}</h2>
+                            <p><a class="card-text" href="{% url 'mailing:message_detail' message.pk %}">
+                                {{ message.message|truncatechars:100 }}</a>
+                            </p>
                     </div>
                     {% if not "users.deactivate_user" in perms %}
-                    <p><a class="btn btn-danger" href="{% url 'mailing:message_delete' message.pk %}">Delete Message</a></p>
-                    <p><a class="btn btn-success" href="{% url 'mailing:message_update' message.pk %}">Edit Message</a></p>
+                        <p><a class="btn btn-danger"
+                              href="{% url 'mailing:message_delete' message.pk %}">Delete Message</a>
+                        </p>
+                        <p><a class="btn btn-success"
+                              href="{% url 'mailing:message_update' message.pk %}">Edit Message</a>
+                        </p>
                     {% endif %}
                 </div>
             {% endfor %}

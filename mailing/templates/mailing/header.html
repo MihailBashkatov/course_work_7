@@ -1,13 +1,12 @@
 <div class="pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center">
     <h1 class="display-4">Mailing statistics</h1>
     {% if user.is_authenticated %}
-    {% if not "users.deactivate_user" in perms %}
-    <p class="lead">Welcome, {{user}}, to the statistics page, where you can find info about status of your mailing</p>
+        {% if not "users.deactivate_user" in perms %}
+            <p class="lead">Welcome, {{user}}, to the statistics page, where you can find info about status of your mailing</p>
+        {% else %}
+            <p class="lead">Welcome, {{user}}, to the statistics page, where you can find info about status of all  mailing</p>
+        {% endif %}
     {% else %}
-    <p class="lead">Welcome, {{user}}, to the statistics page, where you can find info about status of all  mailing</p>
+        <p class="lead">Welcome to the statistics page</p>
     {% endif %}
-    {% else %}
-     <p class="lead">Welcome to the statistics page</p>
-    {% endif %}
-
 </div>

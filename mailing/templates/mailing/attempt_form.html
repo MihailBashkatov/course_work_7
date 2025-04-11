@@ -4,26 +4,26 @@
 {% block content %}
 {% include 'mailing/header.html' %}
 <h2> {{ title }} </h2>
-<div class="container">
-    <div class="row">
-        <div class="col-6">
-            <form class="row" method="post" enctype="multipart/form-data">
-                <div class="card">
-                    <div class="card-body">
-                        {% csrf_token %}
-                        {{ form.as_p }}
-                        <button type="submit" class="btn btn-primary">
-                        {% if object %}
-                            Update mailing
-                        {% else %}
-                            Create mailing
-                        {% endif %}
-                        </button>
-                        <a href="{% url 'mailing:mailing_list' %}" class="btn btn-primary">Back to list of mailings</a>
+    <div class="container">
+        <div class="row">
+            <div class="col-6">
+                <form class="row" enctype="multipart/form-data" method="post">
+                    <div class="card">
+                        <div class="card-body">
+                                                {% csrf_token %}
+                                                {{ form.as_p }}
+                                                <button class="btn btn-primary" type="submit">
+                                                {% if object %}
+                                                    Update mailing
+                                                {% else %}
+                                                    Create mailing
+                                                {% endif %}
+                                                </button>
+                            <a class="btn btn-primary" href="{% url 'mailing:mailing_list' %}">Back to list of mailings</a>
+                        </div>
                     </div>
-                </div>
-            </form>
+                </form>
+            </div>
         </div>
     </div>
-</div>
 {% endblock %}

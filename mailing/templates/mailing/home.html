@@ -4,70 +4,73 @@
 {% include 'mailing/header.html' %}
 
 {% if user.is_authenticated %}
-{% if  not "users.deactivate_user" in perms %}
+    {% if  not "users.deactivate_user" in perms %}
 
-<div class="row text-center">
-        <div class="col-3">
-            <div class="card mb-4 box-shadow">
-                <div class="card-header">
-                    <h4 class="my-0 font-weight-normal">Information about mailings</h4>
+        <div class="row text-center">
+            <div class="col-3">
+                <div class="card mb-4 box-shadow">
+                    <div class="card-header">
+                        <h4 class="my-0 font-weight-normal">Information about mailings</h4>
+                    </div>
+                    <div class="card-body">
+                        <ul class="list-unstyled mt-3 mb-4 text-start m-3">
+                            <li><h2><a class="btn btn-lg btn-block btn-outline-primary mb-4"
+                                       href="{% url 'mailing:mailing_list' %}">All mailings</a></h2></li>
+                            <li><h2><a class="btn btn-lg btn-block btn-outline-primary mb-4"
+                                       href="{% url 'mailing:receivers_list' %}">All clients</a></h2></li>
+                            <li><h2><a class="btn btn-lg btn-block btn-outline-primary mb-4"
+                                       href="{% url 'mailing:messages_list' %}">All messages</a></h2></li>
+                            <li><h2><a class="btn btn-lg btn-block btn-outline-primary mb-4"
+                                       href="{% url 'mailing:statistics' %}">Statistics</a></h2></li>
+                        </ul>
+                    </div>
                 </div>
-                <div class="card-body">
-                    <ul class="list-unstyled mt-3 mb-4 text-start m-3">
-                        <li><h2><a href="{% url 'mailing:mailing_list' %}"  class="btn btn-lg btn-block btn-outline-primary mb-4">All mailings</a></h2></li>
-                        <li><h2><a href="{% url 'mailing:receivers_list' %}"  class="btn btn-lg btn-block btn-outline-primary mb-4">All clients</a></h2></li>
-                        <li><h2><a href="{% url 'mailing:messages_list' %}"  class="btn btn-lg btn-block btn-outline-primary mb-4">All messages</a></h2></li>
-
-                        <li><h2><a href="{% url 'mailing:statistics' %}"  class="btn btn-lg btn-block btn-outline-primary mb-4">Statistics</a></h2></li>
-                    </ul>
+            </div>
+            <div class="col-5">
+            </div>
+            <div class="col-3">
+                <div class="card mb-4 box-shadow">
+                    <div class="card-header">
+                        <h4 class="my-0 font-weight-normal">Creates mailing</h4>
+                    </div>
+                    <div class="card-body">
+                        <ul class="list-unstyled mt-3 mb-4 text-start m-3">
+                            <li><h2><a class="btn btn-lg btn-block btn-outline-primary mb-4"
+                                       href="{% url 'mailing:receiver_create' %}">Create new Client</a></h2></li>
+                            <li><h2><a class="btn btn-lg btn-block btn-outline-primary mb-4"
+                                       href="{% url 'mailing:message_create' %}">Create new Message</a></h2></li>
+                            <li><h2><a class="btn btn-lg btn-block btn-outline-primary mb-4"
+                                       href="{% url 'mailing:mailing_create' %}">Create new Mailing</a></h2></li>
+                            <li><h2><a class="btn btn-lg btn-block btn-outline-primary mb-4"
+                                       href="{% url 'mailing:attempt_create' %}">Send Mailing</a></h2></li>
+                        </ul>
+                    </div>
                 </div>
             </div>
         </div>
 
+    {% else %}
 
-        <div class="col-5">
-
-
-        </div>
-
-        <div class="col-3">
-            <div class="card mb-4 box-shadow">
-                <div class="card-header">
-                    <h4 class="my-0 font-weight-normal">Creates mailing</h4>
-                </div>
-                <div class="card-body">
-                    <ul class="list-unstyled mt-3 mb-4 text-start m-3">
-                        <li><h2><a href="{% url 'mailing:receiver_create' %}"  class="btn btn-lg btn-block btn-outline-primary mb-4">Create new Client</a></h2></li>
-                        <li><h2><a href="{% url 'mailing:message_create' %}"  class="btn btn-lg btn-block btn-outline-primary mb-4">Create new Message</a></h2></li>
-                        <li><h2><a href="{% url 'mailing:mailing_create' %}"  class="btn btn-lg btn-block btn-outline-primary mb-4">Create new Mailing</a></h2></li>
-                        <li><h2><a href="{% url 'mailing:attempt_create' %}"  class="btn btn-lg btn-block btn-outline-primary mb-4">Send Mailing</a></h2></li>
-
-                    </ul>
-                </div>
+        <div class="card mb-4 box-shadow">
+            <div class="card-header">
+                <h4 class="my-0 font-weight-normal">Information for moderators</h4>
             </div>
-        </div>
-
-    </div>
-{% else %}
-
-<div class="card mb-4 box-shadow">
-                <div class="card-header">
-                    <h4 class="my-0 font-weight-normal">Information for moderators</h4>
-                </div>
-                <div class="card-body">
-                    <ul class="list-unstyled mt-3 mb-4 text-start m-3">
-                        <li><h2><a href="{% url 'mailing:mailing_list' %}"  class="btn btn-lg btn-block btn-outline-primary mb-4">All mailings</a></h2></li>
-                        <li><h2><a href="{% url 'mailing:receivers_list' %}"  class="btn btn-lg btn-block btn-outline-primary mb-4">All clients</a></h2></li>
-                        <li><h2><a href="{% url 'mailing:messages_list' %}"  class="btn btn-lg btn-block btn-outline-primary mb-4">All messages</a></h2></li>
-
-                        <li><h2><a href="{% url 'users:users_list' %}"  class="btn btn-lg btn-block btn-outline-primary mb-4">All users</a></h2></li>
-                    </ul>
-                </div>
+            <div class="card-body">
+                <ul class="list-unstyled mt-3 mb-4 text-start m-3">
+                    <li><h2><a class="btn btn-lg btn-block btn-outline-primary mb-4"
+                               href="{% url 'mailing:mailing_list' %}">All mailings</a></h2></li>
+                    <li><h2><a class="btn btn-lg btn-block btn-outline-primary mb-4"
+                               href="{% url 'mailing:receivers_list' %}">All clients</a></h2></li>
+                    <li><h2><a class="btn btn-lg btn-block btn-outline-primary mb-4"
+                               href="{% url 'mailing:messages_list' %}">All messages</a></h2></li>
+                    <li><h2><a class="btn btn-lg btn-block btn-outline-primary mb-4"
+                               href="{% url 'users:users_list' %}">All users</a></h2></li>
+                </ul>
             </div>
-            {% endif %}
-{% else %}
+        </div>{% endif %}
+    {% else %}
 
- <p class="lead">Please, <a href="{% url 'users:login' %}">Login</a> to enter to the site</p>
+    <p class="lead">Please, <a href="{% url 'users:login' %}">Login</a> to enter to the site</p>
 
 {% endif %}
 {% include 'mailing/footer.html' %}

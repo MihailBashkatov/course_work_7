@@ -2,8 +2,8 @@
 {% block title %} Client: {{ object.name }} {% endblock %}
 
 {% block content %}
-{% include 'mailing/header.html' %}
-<h2> Information about {{ object.name }} </h2>
-Client's name: {{ object.name }}
-Message: {{ object.description|linebreaks }}
+    {% include 'mailing/header.html' %}
+        <h2> Information about {{ object.name }} </h2>
+        Client's name: {{ object.name }}
+        Message: {{ object.description|linebreaks }}
 {% endblock %}
