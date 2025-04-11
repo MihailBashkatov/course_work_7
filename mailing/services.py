@@ -1,6 +1,7 @@
 from django.core.cache import cache
+from django.core.mail import send_mail
 
-from config.settings import CACHE_ENABLED
+from config.settings import CACHE_ENABLED, EMAIL_HOST_USER
 from mailing.models import Mailing, Message, Receiver
 
 
@@ -41,3 +42,9 @@ def get_receivers_from_cache(user):
     receiver_list = Receiver.objects.filter(receiver_adder=user)
     cache.set(key, receiver_list)
     return receiver_list
+
+
+def send_mailing(user_mail, subject, message):
+    from_email = EMAIL_HOST_USER
+    recipient_list = user_mail
+    send_mail(subject, message, from_email, recipient_list)
